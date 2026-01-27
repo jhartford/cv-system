@@ -1,0 +1,268 @@
+{% extends "base.j2" %}
+
+{% set config = {
+    "title": "Curriculum Vitae",
+    "header_right": "Curriculum Vitae",
+    "font_size": "10pt",
+    "margin": "1.0in"
+} %}
+
+{% block page_style %}
+% ---------- Page style ----------
+\pagestyle{myheadings}
+\markright{ {{ personal.name | latex_escape }} }
+\thispagestyle{empty}
+
+% Custom section fonts
+\usepackage{sectsty}
+\sectionfont{\rmfamily\mdseries\Large}
+\subsectionfont{\rmfamily\mdseries\itshape\large}
+
+% Don't indent paragraphs.
+\setlength\parindent{0em}
+
+% Make lists without bullets
+\renewenvironment{itemize}{
+  \begin{list}{}{
+    \setlength{\leftmargin}{1.5em}
+  }
+}{
+  \end{list}
+}
+
+\geometry{
+  body={6.5in, 8.5in},
+  left=1.0in,
+  top=1.25in
+}
+{% endblock %}
+
+{% block header %}
+% =================== Header ===================
+{\huge {{ personal.name | latex_escape }}}
+
+\vspace{0.25in}
+
+\begin{minipage}{0.45\linewidth}
+{{ personal.institution | latex_escape }} \\
+{{ personal.department | latex_escape }}\\
+{%- if personal.address %}
+{{ personal.address | latex_escape }}
+{%- endif %}
+\end{minipage}
+\begin{minipage}{0.45\linewidth}
+  \begin{tabular}{ll}
+    {%- if personal.phone %}
+    Phone: & {{ personal.phone | latex_escape }} \\
+    {%- endif %}
+    Email: & \href{mailto:{{ personal.email }}}{\tt {{ personal.email | latex_escape }}} \\
+    {%- if personal.website %}
+    Homepage: & \href{ {{ personal.website }} }{\tt {{ personal.website | replace("https://", "") | replace("http://", "") | latex_escape }}} \\
+    {%- endif %}
+  \end{tabular}
+\end{minipage}
+{% endblock %}
+
+{% block content %}
+{% if education %}
+\section*{Education}
+
+\begin{itemize}
+{%- for edu in education | sort(attribute='year', reverse=true) %}
+\item {{ edu.year }}: {{ edu.degree | latex_escape }}, {{ edu.institution | latex_escape }}
+
+{%- if edu.thesis %}
+
+  Dissertation: \emph{ {{ edu.thesis | latex_escape }} }
+{%- endif %}
+{%- if edu.supervisor %}
+
+  Advisor: {{ edu.supervisor | latex_escape }}
+{%- endif %}
+{%- endfor %}
+\end{itemize}
+{% endif %}
+
+\section*{Research Interests}
+
+Machine Learning, Causal Inference, Representation Learning, Statistical Methods for AI
+
+\section*{Academic Positions}
+
+\begin{itemize}
+\item {{ personal.current_position | latex_escape }}, {{ personal.department | latex_escape }}, {{ personal.institution | latex_escape }}, 2024--present
+
+\end{itemize}
+
+{% if publications.journal_papers or publications.conference_papers %}
+\section*{Publications}
+
+{% if publications.journal_papers %}
+\subsection*{Journal Articles}
+\begin{itemize}
+{%- for paper in publications.journal_papers | sort(attribute='year', reverse=true) %}
+\item {{ (paper.authors | join(', ')) | latex_escape }}.
+      \textbf{ {{ paper.title | latex_escape }} }
+      \emph{ {{ (paper.journal | default(paper.venue)) | latex_escape }}}{% if paper.volume %}, vol. {{ paper.volume | latex_escape }}{% endif %}{% if paper.pages %}, pp. {{ paper.pages | latex_escape }}{% endif %}, {{ paper.year }}.
+
+{%- endfor %}
+\end{itemize}
+{% endif %}
+
+{% if publications.conference_papers %}
+\subsection*{Conference Papers}
+\begin{itemize}
+{%- for year in publications.conference_papers.keys() | sort(reverse=true) %}
+{%- for paper in publications.conference_papers[year] %}
+\item {{ (paper.authors | join(', ')) | latex_escape }}.
+      \textbf{ {{ paper.title | latex_escape }} }
+      \emph{ {{ paper.venue.replace("*", "").replace("_", "") | latex_escape }} }, {{ paper.year }}.
+      {%- if paper.type %} ({{ paper.type | capitalize | latex_escape }}){% endif %}
+      {%- if paper.acceptance_rate %} {{ paper.acceptance_rate | latex_escape }}.{% endif %}
+
+{%- endfor %}
+{%- endfor %}
+\end{itemize}
+{% endif %}
+
+{% if publications.preprints %}
+\subsection*{Preprints}
+\begin{itemize}
+{%- for paper in publications.preprints | sort(attribute='year', reverse=true) %}
+\item {{ (paper.authors | join(', ')) | latex_escape }}.
+      \textbf{ {{ paper.title | latex_escape }} }
+      arXiv preprint{% if paper.arxiv %} arXiv:{{ paper.arxiv }}{% endif %}, {{ paper.year }}.
+
+{%- endfor %}
+\end{itemize}
+{% endif %}
+
+{% if publications.workshop_papers %}
+\subsection*{Workshop Papers}
+\begin{itemize}
+{%- for paper in publications.workshop_papers | sort(attribute='year', reverse=true) %}
+\item {{ (paper.authors | join(', ')) | latex_escape }}.
+      \textbf{ {{ paper.title | latex_escape }} }
+      {%- if paper.venue %}
+      \emph{ {{ paper.venue | latex_escape }} }, {{ paper.year }}.
+      {%- else %}
+      {{ paper.year }}.
+      {%- endif %}
+      {%- if paper.award %} \textbf{ {{ paper.award | latex_escape }} }{% endif %}
+
+{%- endfor %}
+\end{itemize}
+{% endif %}
+{% endif %}
+
+{% if grants.fellowships or grants.grants %}
+\section*{Grants and Fellowships}
+
+\begin{itemize}
+{%- for grant in (grants.fellowships + grants.grants) | sort(attribute='year', reverse=true) %}
+\item \textbf{ {{ grant.title | latex_escape }} }{% if grant.organization %}, {{ grant.organization | latex_escape }}{% endif %}, {{ grant.year }}{% if grant.amount %}, {{ grant.amount | latex_escape }}{% endif %}{% if grant.status and grant.status == "declined" %} (declined){% endif %}
+
+{%- endfor %}
+\end{itemize}
+{% endif %}
+
+{% if grants.conference_awards or grants.university_awards %}
+\section*{Awards and Honors}
+
+\begin{itemize}
+{%- for award in (grants.conference_awards + grants.university_awards + grants.research_awards) | sort(attribute='year', reverse=true) %}
+\item {{ award.title | latex_escape }}, {{ award.year }}{% if award.amount %} ({{ award.amount | latex_escape }}){% endif %}
+
+{%- endfor %}
+\end{itemize}
+{% endif %}
+
+{% if teaching.experience %}
+\section*{Teaching Experience}
+
+\begin{itemize}
+{%- for exp in teaching.experience | sort(attribute='year', reverse=true) %}
+\item {{ exp.role | latex_escape }}{% if exp.course %}, {{ exp.course | latex_escape }}{% endif %}, {{ exp.institution | latex_escape }}, {{ exp.year }}
+{%- if exp.instructor and exp.instructor != personal.name %} (with {{ exp.instructor | latex_escape }}){% endif %}
+
+{%- endfor %}
+\end{itemize}
+{% endif %}
+
+{% if teaching.supervision %}
+\section*{Students Supervised}
+
+\begin{itemize}
+{%- for student in teaching.supervision | sort(attribute='year', reverse=true) %}
+\item {{ student.student | latex_escape }}, {{ student.level | latex_escape }}{% if student.institution %}, {{ student.institution | latex_escape }}{% endif %}, {{ student.year }}{% if student.status %} ({{ student.status | latex_escape }}){% endif %}
+{%- if student.collaborator %} (with {{ student.collaborator | latex_escape }}){% endif %}
+
+{%- endfor %}
+\end{itemize}
+{% endif %}
+
+{% if talks.keynotes or talks.invited %}
+\section*{Invited Talks}
+
+\begin{itemize}
+{%- for talk in (talks.keynotes + talks.invited) | sort(attribute='year', reverse=true) %}
+\item \textbf{ {{ talk.title | latex_escape }} }, {{ talk.venue | latex_escape }}, {{ talk.year }}{% if talk.location %}, {{ talk.location | latex_escape }}{% endif %}
+{%- if talk.collaborator %} (with {{ talk.collaborator | latex_escape }}){% endif %}
+
+{%- endfor %}
+\end{itemize}
+{% endif %}
+
+{% if talks.conference or talks.seminars %}
+\section*{Conference and Seminar Presentations}
+
+\begin{itemize}
+{%- for talk in (talks.conference + talks.seminars) | sort(attribute='year', reverse=true) %}
+\item \textbf{ {{ talk.title | latex_escape }} }, {{ talk.venue | latex_escape }}, {{ talk.year }}{% if talk.location %}, {{ talk.location | latex_escape }}{% endif %}
+
+{%- endfor %}
+\end{itemize}
+{% endif %}
+
+{% if service.conference_reviews %}
+\section*{Professional Service}
+
+\subsection*{Conference Reviewing}
+\begin{itemize}
+{%- for review in service.conference_reviews | sort(attribute='venue') %}
+\item {{ review.venue | latex_escape }}{% if review.years %} ({{ (review.years | join(', ')) | latex_escape }}){% endif %}
+
+{%- endfor %}
+\end{itemize}
+
+{% if service.journal_reviews %}
+\subsection*{Journal Reviewing}
+\begin{itemize}
+{%- for review in service.journal_reviews | sort(attribute='year', reverse=true) %}
+\item {{ review.venue | latex_escape }}, {{ review.year }}
+
+{%- endfor %}
+\end{itemize}
+{% endif %}
+
+{% if service.workshops %}
+\subsection*{Workshop Organization}
+\begin{itemize}
+{%- for workshop in service.workshops | sort(attribute='year', reverse=true) %}
+\item {{ workshop.venue | latex_escape }}, {{ workshop.year }} ({{ (workshop.role | default("Program Committee")) | latex_escape }})
+
+{%- endfor %}
+\end{itemize}
+{% endif %}
+{% endif %}
+
+\section*{Technical Skills}
+
+Programming Languages: Python, R, Julia, MATLAB\\
+Machine Learning: PyTorch, TensorFlow, scikit-learn, JAX\\
+Statistical Software: Stan, BUGS, specialized causal inference packages
+
+\section*{References}
+
+Available upon request.
+{% endblock %}

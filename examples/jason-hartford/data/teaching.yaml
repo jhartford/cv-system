@@ -1,0 +1,88 @@
+experience:
+- year: 2024
+  role: Invited speaker
+  institution: A tutorial on causal inference and causal discovery for drug discovery
+  course: Machine Learning for Drug Discovery Summer School hosted at Mila
+- year: 2017
+  role: Teaching Assistant
+  institution: University of British Columbia
+  course: CPSC540
+  instructor: Graduate Machine Learning, Mark Schmidt
+- year: 2015
+  role: Teaching Assistant
+  institution: University of British Columbia
+  course: Computing for Life Sciences, Ian Mitchell
+- year: 2014
+  role: Teaching Assistant
+  institution: University of British Columbia
+  course: CPSC340
+  instructor: Machine Learning, Raymond Ng
+supervision:
+- year: 2025
+  student: Rachel Gaffney
+  institution: incoming September 2025
+  level: PhD
+  status: incoming
+- year: 2025
+  student: Laasya Sree Sapa
+  institution: Computer Science
+  level: Project
+- year: 2025
+  student: Manan Mal
+  institution: Computer Science
+  level: Project
+- year: 2025
+  student: Cheng-Chieh Lan
+  institution: Data Science
+  level: Project
+- year: 2025
+  student: Ming Hui Ng
+  institution: Data Science
+  level: Project
+- year: 2024
+  student: Rushil Gupta
+  institution: Mila / Université de Montréal
+  level: Intern
+- year: 2023
+  student: Elisabeth Ailer
+  institution: Helmholtz Munich
+  level: Intern
+- year: 2022
+  student: Amin Mansouri
+  institution: Mila / Université de Montréal
+  level: Intern
+- year: 2022
+  student: Elliot Layne
+  institution: Mila / Université de Montréal
+  level: Intern
+- year: 2025
+  student: Charlie Jones
+  institution: Imperial College London
+  level: Intern
+  collaborator: Cian Eastwood
+- year: 2025
+  student: Jake Fawkes
+  institution: University Of Oxford
+  level: Intern
+  collaborator: Kristina Ulicna
+- year: 2024
+  student: Aditya Ravuri
+  institution: University of Cambridge
+  level: Intern
+  collaborator: Kristina Ulicna
+- year: 2024
+  student: Jana Osea
+  institution: University of British Columbia
+  level: Intern
+- year: 2024
+  student: Konstantin Donhauser
+  institution: ETH Zurich
+  level: Intern
+- year: 2023
+  student: Moksh Jain
+  institution: Mila / Université de Montréal
+  level: Intern
+- year: 2023
+  student: Aniket Didolkar
+  institution: Mila / Université de Montréal
+  level: Intern

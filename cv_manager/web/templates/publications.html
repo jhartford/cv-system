@@ -1,0 +1,256 @@
+{% extends "base.html" %}
+
+{% block title %}Publications - CV Manager{% endblock %}
+{% block page_title %}Publications{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h3 class="text-xl font-semibold text-gray-800">Publications</h3>
+            <p class="text-gray-600 mt-1">Manage your research publications and papers.</p>
+        </div>
+        <div class="flex space-x-3">
+            <a href="{{ url_for('orcid_sync') }}" class="btn-primary">
+                <i class="fab fa-orcid mr-2"></i>
+                Sync to ORCID
+            </a>
+            <a href="{{ url_for('import_orcid') }}" class="btn-secondary">
+                <i class="fas fa-download mr-2"></i>
+                Import from ORCID
+            </a>
+            <a href="{{ url_for('import_bibtex') }}" class="btn-secondary">
+                <i class="fas fa-file-upload mr-2"></i>
+                Import BibTeX
+            </a>
+            <a href="{{ url_for('dashboard') }}" class="btn-secondary">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Back to Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="stat-card">
+            <div class="text-2xl font-bold text-blue-600">
+                {{ publications.journal_papers|length if publications.journal_papers else 0 }}
+            </div>
+            <div class="text-sm text-gray-600">Journal Papers</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-2xl font-bold text-green-600">
+                {% set conference_count = 0 %}
+                {% for year, papers in publications.conference_papers.items() if publications.conference_papers %}
+                    {% set conference_count = conference_count + papers|length %}
+                {% endfor %}
+                {{ conference_count }}
+            </div>
+            <div class="text-sm text-gray-600">Conference Papers</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-2xl font-bold text-yellow-600">
+                {{ publications.preprints|length if publications.preprints else 0 }}
+            </div>
+            <div class="text-sm text-gray-600">Preprints</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-2xl font-bold text-purple-600">
+                {{ publications.workshop_papers|length if publications.workshop_papers else 0 }}
+            </div>
+            <div class="text-sm text-gray-600">Workshop Papers</div>
+        </div>
+    </div>
+
+    <!-- Journal Papers -->
+    {% if publications.journal_papers %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-newspaper mr-2 text-blue-600"></i>
+            Journal Papers
+        </h4>
+        <div class="space-y-4">
+            {% for paper in publications.journal_papers|sort(attribute='year', reverse=true) %}
+            <div class="border-l-4 border-blue-500 pl-4 py-2">
+                <h5 class="font-medium text-gray-800">{{ paper.title }}</h5>
+                <p class="text-sm text-gray-600">
+                    {{ paper.authors|join(', ') }}
+                </p>
+                <p class="text-sm text-gray-500">
+                    <span class="font-medium">{{ paper.journal or paper.venue }}</span>
+                    {% if paper.volume %}, vol. {{ paper.volume }}{% endif %}
+                    {% if paper.pages %}, pp. {{ paper.pages }}{% endif %}
+                    ({{ paper.year }})
+                    {% if paper.doi %}
+                        - <a href="https://doi.org/{{ paper.doi }}" target="_blank" class="text-blue-600 hover:underline">DOI</a>
+                    {% endif %}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Conference Papers -->
+    {% if publications.conference_papers %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-users mr-2 text-green-600"></i>
+            Conference Papers
+        </h4>
+        {% for year in publications.conference_papers.keys()|sort(reverse=true) %}
+            {% set papers = publications.conference_papers[year] %}
+            <div class="mb-6">
+                <h5 class="text-md font-medium text-gray-700 mb-3 border-b pb-2">{{ year }}</h5>
+                <div class="space-y-3">
+                    {% for paper in papers %}
+                    <div class="border-l-4 border-green-500 pl-4 py-2">
+                        <h6 class="font-medium text-gray-800">{{ paper.title }}</h6>
+                        <p class="text-sm text-gray-600">
+                            {{ paper.authors|join(', ') }}
+                        </p>
+                        <p class="text-sm text-gray-500">
+                            <span class="font-medium">{{ paper.venue }}</span>
+                            {% if paper.type %}
+                                <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs ml-2">
+                                    {{ paper.type|title }}
+                                </span>
+                            {% endif %}
+                            {% if paper.acceptance_rate %}
+                                <span class="text-gray-400 ml-2">({{ paper.acceptance_rate }})</span>
+                            {% endif %}
+                            {% if paper.award %}
+                                <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs ml-2">
+                                    {{ paper.award }}
+                                </span>
+                            {% endif %}
+                        </p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <!-- Preprints -->
+    {% if publications.preprints %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-file-alt mr-2 text-yellow-600"></i>
+            Preprints
+        </h4>
+        <div class="space-y-4">
+            {% for paper in publications.preprints|sort(attribute='year', reverse=true) %}
+            <div class="border-l-4 border-yellow-500 pl-4 py-2">
+                <h5 class="font-medium text-gray-800">{{ paper.title }}</h5>
+                <p class="text-sm text-gray-600">
+                    {{ paper.authors|join(', ') }}
+                </p>
+                <p class="text-sm text-gray-500">
+                    Preprint ({{ paper.year }})
+                    {% if paper.arxiv %}
+                        - <a href="https://arxiv.org/abs/{{ paper.arxiv }}" target="_blank" class="text-blue-600 hover:underline">arXiv:{{ paper.arxiv }}</a>
+                    {% endif %}
+                    {% if paper.url %}
+                        - <a href="{{ paper.url }}" target="_blank" class="text-blue-600 hover:underline">Link</a>
+                    {% endif %}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Under Review -->
+    {% if publications.under_review %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-clock mr-2 text-orange-600"></i>
+            Under Review
+        </h4>
+        <div class="space-y-4">
+            {% for paper in publications.under_review|sort(attribute='year', reverse=true) %}
+            <div class="border-l-4 border-orange-500 pl-4 py-2">
+                <h5 class="font-medium text-gray-800">{{ paper.title }}</h5>
+                <p class="text-sm text-gray-600">
+                    {{ paper.authors|join(', ') }}
+                </p>
+                <p class="text-sm text-gray-500">
+                    Under Review ({{ paper.year }})
+                    {% if paper.venue %}
+                        - Submitted to {{ paper.venue }}
+                    {% endif %}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Workshop Papers -->
+    {% if publications.workshop_papers %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-tools mr-2 text-purple-600"></i>
+            Workshop Papers
+        </h4>
+        <div class="space-y-4">
+            {% for paper in publications.workshop_papers|sort(attribute='year', reverse=true) %}
+            <div class="border-l-4 border-purple-500 pl-4 py-2">
+                <h5 class="font-medium text-gray-800">{{ paper.title }}</h5>
+                <p class="text-sm text-gray-600">
+                    {{ paper.authors|join(', ') }}
+                </p>
+                <p class="text-sm text-gray-500">
+                    {% if paper.venue %}{{ paper.venue }}{% endif %} ({{ paper.year }})
+                    {% if paper.award %}
+                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs ml-2">
+                            {{ paper.award }}
+                        </span>
+                    {% endif %}
+                </p>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Actions -->
+    <div class="card">
+        <div class="flex items-center justify-between">
+            <div>
+                <h4 class="text-lg font-semibold text-gray-800">Manage Publications</h4>
+                <p class="text-gray-600 mt-1">Edit publication data using YAML files or add new entries.</p>
+            </div>
+            <div class="space-x-3">
+                <button onclick="window.open('/download/publications.yaml', '_blank')" class="btn-secondary">
+                    <i class="fas fa-download mr-2"></i>
+                    Export YAML
+                </button>
+                <button onclick="exportBibTeX()" class="btn-secondary">
+                    <i class="fas fa-quote-right mr-2"></i>
+                    Export BibTeX
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    async function exportBibTeX() {
+        try {
+            const response = await fetch('/export?format=bibtex');
+            if (response.ok) {
+                showAlert('BibTeX export initiated', 'success');
+            } else {
+                showAlert('Error exporting BibTeX', 'error');
+            }
+        } catch (error) {
+            showAlert('Error: ' + error.message, 'error');
+        }
+    }
+</script>
+{% endblock %}
+{% endblock %}

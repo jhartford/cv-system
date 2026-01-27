@@ -1,0 +1,23 @@
+fellowships:
+- year: 2024-2029
+  title: NSERC Discovery Grant
+  amount: $145,000
+  status: declined
+  description: declined to move to the University of Manchester
+  organization: $29,000 per year for 5 years
+- year: 2021-2023
+  title: NSERC Postdoctoral Fellowship
+  amount: $90,000
+  organization: $45,000 per year
+grants: []
+conference_awards:
+- year: '2017'
+  title: ICML 2017 Travel Award
+  amount: $1,800
+- year: '2016'
+  title: NIPS 2016 Travel Award
+  amount: $1,000
+university_awards:
+- year: '2016'
+  title: Graduate Teaching Assistant Award
+research_awards: []

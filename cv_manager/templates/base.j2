@@ -1,0 +1,111 @@
+{%- set personal = cv_data.personal -%}
+{%- set education = cv_data.education -%}
+{%- set publications = cv_data.publications -%}
+{%- set grants = cv_data.grants -%}
+{%- set teaching = cv_data.teaching -%}
+{%- set service = cv_data.service -%}
+{%- set talks = cv_data.talks -%}
+
+\documentclass[{{ config.font_size | default("10pt") }},a4paper]{article}
+
+% ---------- Packages ----------
+\usepackage[margin={{ config.margin | default("22mm") }}]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{lmodern}
+\usepackage{hyperref}
+\usepackage{enumitem}
+\usepackage{tabularx}
+\usepackage{array}
+\usepackage{parskip}
+\usepackage{fancyhdr}
+\usepackage{lastpage}
+\usepackage{xcolor}
+\usepackage{datetime2}
+
+% ---------- Hyperref setup ----------
+\hypersetup{
+  colorlinks=true,
+  urlcolor=black,
+  linkcolor=black,
+  citecolor=black,
+  pdfauthor={ {{ personal.name }} },
+  pdftitle={ {{ config.title | default("Curriculum Vitae") }} },
+  pdfsubject={ {{ config.title | default("Curriculum Vitae") }} }
+}
+
+{% block page_style %}
+% ---------- Page style ----------
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small {{ config.header_right | default("Curriculum Vitae") }}}
+\lhead{\small {{ personal.name }}}
+\cfoot{\small Page \thepage\ of \pageref{LastPage}}
+{% endblock %}
+
+% ---------- Compact lists ----------
+\setlist[itemize]{nosep,leftmargin=*}
+\setlist[enumerate]{nosep,leftmargin=*}
+
+% ---------- Helper macros ----------
+\newcommand{\separator}{\vspace{-0.2em}\hrule\vspace{0.6em}}
+
+{% raw %}
+% Simple key–value fields
+\newcommand{\field}[2]{\textbf{#1:}~#2\\}
+
+% Two-column label/value row for compact tables
+\newcolumntype{L}[1]{>{\raggedright\arraybackslash}p{#1}}
+\newcolumntype{R}[1]{>{\raggedleft\arraybackslash}p{#1}}
+
+% Dated item: Institution — Role (Dates) — optional details
+\newcommand{\dateditem}[4][]{\textbf{#2}\,—\,#3\hfill{\small #4}\\\emph{#1}\\}
+
+% Publication item macro (edit as preferred)
+\newcommand{\pubitem}[4]{\item #1. {\bf #2}. \emph{#3}. #4.}
+
+% Grant item macro
+\newcommand{\grantitem}[6]{\item \textbf{#1} — {#2}. {#3}. Role: {#4}. Amount: {#5}. {#6}}
+
+% Supervision item macro
+\newcommand{\supervision}[4]{\item {#1} — {#2} (Role: {#3}; {#4})}
+
+% Talk item macro
+\newcommand{\talkitem}[4]{\item {#1}. \textbf{#2} - {#3}. {#4}}
+
+% Service item macro
+\newcommand{\serviceitem}[3]{\item \textbf{#1}: {#2} ({#3})}
+{% endraw %}
+
+% ---------- Document ----------
+\begin{document}
+
+{% block header %}
+% =================== Header ===================
+{\LARGE\bf {{ personal.name }}}\\
+{\large {{ personal.current_position }}}\\
+{{ personal.department }}, {{ personal.institution }}\\
+\vspace{0.2em}
+\separator
+\begin{tabularx}{\textwidth}{@{}L{22mm}X@{}}
+Email & \href{mailto:{{ personal.email }}}{ {{ personal.email }} }\\
+{%- if personal.orcid %}
+ORCID & \href{https://orcid.org/{{ personal.orcid }}}{ {{ personal.orcid }} }\\
+{%- endif %}
+{%- if personal.website %}
+Web & \href{ {{ personal.website }} }{ {{ personal.website }} }\\
+{%- endif %}
+{%- if personal.phone %}
+Phone & {{ personal.phone }}\\
+{%- endif %}
+\end{tabularx}
+\vspace{0.6em}
+\noindent Last updated: \today
+{% endblock %}
+
+{% block content %}
+% Content blocks to be filled by child templates
+{% endblock %}
+
+\label{LastPage}
+\end{document}

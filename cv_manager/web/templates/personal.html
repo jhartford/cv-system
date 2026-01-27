@@ -1,0 +1,284 @@
+{% extends "base.html" %}
+
+{% block title %}Personal Information - CV Manager{% endblock %}
+{% block page_title %}Personal Information{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="card">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h3 class="text-xl font-semibold text-gray-800">Personal Information</h3>
+                <p class="text-gray-600 mt-1">Update your basic information and contact details.</p>
+            </div>
+            <a href="{{ url_for('dashboard') }}" class="btn-secondary">
+                <i class="fas fa-arrow-left mr-2"></i>
+                Back to Dashboard
+            </a>
+        </div>
+
+        <form method="POST" class="space-y-6">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+            <!-- Basic Information -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="form-group">
+                    <label for="name" class="form-label">
+                        <i class="fas fa-user mr-2"></i>
+                        Full Name *
+                    </label>
+                    <input
+                        type="text"
+                        id="name"
+                        name="name"
+                        class="form-input"
+                        value="{{ personal.name or '' }}"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="current_position" class="form-label">
+                        <i class="fas fa-briefcase mr-2"></i>
+                        Current Position *
+                    </label>
+                    <input
+                        type="text"
+                        id="current_position"
+                        name="current_position"
+                        class="form-input"
+                        value="{{ personal.current_position or '' }}"
+                        placeholder="e.g., Assistant Professor, Research Scientist"
+                        required
+                    >
+                </div>
+            </div>
+
+            <!-- Institutional Information -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="form-group">
+                    <label for="department" class="form-label">
+                        <i class="fas fa-building mr-2"></i>
+                        Department *
+                    </label>
+                    <input
+                        type="text"
+                        id="department"
+                        name="department"
+                        class="form-input"
+                        value="{{ personal.department or '' }}"
+                        placeholder="e.g., Department of Computer Science"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="institution" class="form-label">
+                        <i class="fas fa-university mr-2"></i>
+                        Institution *
+                    </label>
+                    <input
+                        type="text"
+                        id="institution"
+                        name="institution"
+                        class="form-input"
+                        value="{{ personal.institution or '' }}"
+                        placeholder="e.g., University of Manchester"
+                        required
+                    >
+                </div>
+            </div>
+
+            <!-- Contact Information -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="form-group">
+                    <label for="email" class="form-label">
+                        <i class="fas fa-envelope mr-2"></i>
+                        Email Address *
+                    </label>
+                    <input
+                        type="email"
+                        id="email"
+                        name="email"
+                        class="form-input"
+                        value="{{ personal.email or '' }}"
+                        required
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="phone" class="form-label">
+                        <i class="fas fa-phone mr-2"></i>
+                        Phone Number
+                    </label>
+                    <input
+                        type="tel"
+                        id="phone"
+                        name="phone"
+                        class="form-input"
+                        value="{{ personal.phone or '' }}"
+                        placeholder="+1 (555) 123-4567"
+                    >
+                </div>
+            </div>
+
+            <!-- Web Presence -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="form-group">
+                    <label for="website" class="form-label">
+                        <i class="fas fa-globe mr-2"></i>
+                        Personal Website
+                    </label>
+                    <input
+                        type="url"
+                        id="website"
+                        name="website"
+                        class="form-input"
+                        value="{{ personal.website or '' }}"
+                        placeholder="https://yourwebsite.com"
+                    >
+                </div>
+
+                <div class="form-group">
+                    <label for="orcid" class="form-label">
+                        <i class="fab fa-orcid mr-2"></i>
+                        ORCID ID
+                    </label>
+                    <input
+                        type="text"
+                        id="orcid"
+                        name="orcid"
+                        class="form-input"
+                        value="{{ personal.orcid or '' }}"
+                        placeholder="0000-0000-0000-0000"
+                        pattern="[0-9]{4}-[0-9]{4}-[0-9]{4}-[0-9]{3}[0-9X]"
+                    >
+                    <p class="text-sm text-gray-500 mt-1">
+                        Format: 0000-0000-0000-0000
+                    </p>
+                </div>
+            </div>
+
+            <!-- Address -->
+            <div class="form-group">
+                <label for="address" class="form-label">
+                    <i class="fas fa-map-marker-alt mr-2"></i>
+                    Mailing Address
+                </label>
+                <textarea
+                    id="address"
+                    name="address"
+                    rows="3"
+                    class="form-textarea"
+                    placeholder="Office/Department Address&#10;Institution&#10;City, State/Country, Postal Code"
+                >{{ personal.address or '' }}</textarea>
+                <p class="text-sm text-gray-500 mt-1">
+                    Optional. Use for contact information on CV.
+                </p>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                <div class="text-sm text-gray-500">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Fields marked with * are required
+                </div>
+
+                <div class="space-x-3">
+                    <a href="{{ url_for('dashboard') }}" class="btn-secondary">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn-primary">
+                        <i class="fas fa-save mr-2"></i>
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Preview Card -->
+    <div class="mt-8 card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">Preview</h4>
+        <div class="bg-gray-50 p-4 rounded-lg">
+            <div class="text-xl font-bold text-gray-800">
+                {{ personal.name or 'Your Name' }}
+            </div>
+            <div class="text-lg text-gray-600">
+                {{ personal.current_position or 'Your Position' }}
+            </div>
+            <div class="text-gray-600">
+                {{ personal.department or 'Department' }}, {{ personal.institution or 'Institution' }}
+            </div>
+
+            <div class="mt-4 space-y-1 text-sm text-gray-600">
+                {% if personal.email %}
+                <div>
+                    <i class="fas fa-envelope w-4 mr-2"></i>
+                    {{ personal.email }}
+                </div>
+                {% endif %}
+                {% if personal.phone %}
+                <div>
+                    <i class="fas fa-phone w-4 mr-2"></i>
+                    {{ personal.phone }}
+                </div>
+                {% endif %}
+                {% if personal.website %}
+                <div>
+                    <i class="fas fa-globe w-4 mr-2"></i>
+                    <a href="{{ personal.website }}" target="_blank" class="text-blue-600 hover:underline">
+                        {{ personal.website }}
+                    </a>
+                </div>
+                {% endif %}
+                {% if personal.orcid %}
+                <div>
+                    <i class="fab fa-orcid w-4 mr-2"></i>
+                    {{ personal.orcid }}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Real-time preview updates
+    const inputs = ['name', 'current_position', 'department', 'institution', 'email', 'phone', 'website', 'orcid'];
+
+    inputs.forEach(field => {
+        const input = document.getElementById(field);
+        if (input) {
+            input.addEventListener('input', updatePreview);
+        }
+    });
+
+    function updatePreview() {
+        // Update name
+        const nameElement = document.querySelector('.bg-gray-50 .text-xl');
+        nameElement.textContent = document.getElementById('name').value || 'Your Name';
+
+        // Update position
+        const positionElement = document.querySelector('.bg-gray-50 .text-lg');
+        positionElement.textContent = document.getElementById('current_position').value || 'Your Position';
+
+        // Update department and institution
+        const deptElement = document.querySelector('.bg-gray-50 .text-gray-600:nth-child(3)');
+        const dept = document.getElementById('department').value || 'Department';
+        const inst = document.getElementById('institution').value || 'Institution';
+        deptElement.textContent = `${dept}, ${inst}`;
+    }
+
+    // ORCID formatting
+    document.getElementById('orcid').addEventListener('input', function(e) {
+        let value = e.target.value.replace(/[^0-9X]/g, '');
+        if (value.length > 0) {
+            value = value.match(/.{1,4}/g).join('-').substr(0, 19);
+        }
+        e.target.value = value;
+    });
+</script>
+{% endblock %}
+{% endblock %}

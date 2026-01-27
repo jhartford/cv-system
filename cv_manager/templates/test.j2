@@ -1,0 +1,14 @@
+\documentclass[10pt,a4paper]{article}
+
+\begin{document}
+
+{\LARGE\bf {{ personal.name }}}\\
+{{ personal.current_position }}\\
+{{ personal.department }}, {{ personal.institution }}\\
+
+\section*{Education}
+{%- for edu in education %}
+\item {{ edu.year }}: {{ edu.degree }}, {{ edu.institution }}
+{%- endfor %}
+
+\end{document}

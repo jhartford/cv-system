@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+
+{% block title %}Service - CV Manager{% endblock %}
+{% block page_title %}Service{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h3 class="text-xl font-semibold text-gray-800">Service</h3>
+            <p class="text-gray-600 mt-1">Record your professional service and committee work.</p>
+        </div>
+        <a href="{{ url_for('dashboard') }}" class="btn-secondary">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Dashboard
+        </a>
+    </div>
+
+    {% if service.conference_reviews or service.journal_reviews or service.workshops or service.volunteer %}
+
+    <!-- Conference Reviews -->
+    {% if service.conference_reviews %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-users mr-2 text-blue-600"></i>
+            Conference Reviews
+        </h4>
+        <div class="space-y-3">
+            {% for review in service.conference_reviews %}
+            <div class="border-l-4 border-blue-500 pl-4 py-2">
+                <h5 class="font-medium text-gray-800">{{ review.venue }}</h5>
+                <div class="text-sm text-gray-600">
+                    {% if review.years %}
+                        Years: {{ review.years|join(', ') }}
+                    {% elif review.year %}
+                        {{ review.year }}
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Journal Reviews -->
+    {% if service.journal_reviews %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-book-open mr-2 text-green-600"></i>
+            Journal Reviews
+        </h4>
+        <div class="space-y-3">
+            {% for review in service.journal_reviews|sort(attribute='year', reverse=true) %}
+            <div class="border-l-4 border-green-500 pl-4 py-2">
+                <h5 class="font-medium text-gray-800">{{ review.venue }}</h5>
+                <div class="text-sm text-gray-600">{{ review.year }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Workshop Organization -->
+    {% if service.workshops %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-tools mr-2 text-purple-600"></i>
+            Workshop Organization
+        </h4>
+        <div class="space-y-3">
+            {% for workshop in service.workshops|sort(attribute='year', reverse=true) %}
+            <div class="border-l-4 border-purple-500 pl-4 py-2">
+                <h5 class="font-medium text-gray-800">{{ workshop.venue }}</h5>
+                <div class="text-sm text-gray-600">
+                    {{ workshop.role|default('Program Committee') }}, {{ workshop.year }}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Volunteer Work -->
+    {% if service.volunteer %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-hands-helping mr-2 text-yellow-600"></i>
+            Volunteer Service
+        </h4>
+        <div class="space-y-3">
+            {% for vol in service.volunteer %}
+            <div class="border-l-4 border-yellow-500 pl-4 py-2">
+                <h5 class="font-medium text-gray-800">{{ vol.venue }}</h5>
+                <div class="text-sm text-gray-600">{{ vol.role|default('Volunteer') }}, {{ vol.year }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    {% else %}
+    <!-- Empty State -->
+    <div class="card text-center py-12">
+        <i class="fas fa-hands-helping text-gray-300 text-6xl mb-4"></i>
+        <h4 class="text-xl font-medium text-gray-500 mb-2">No service activities yet</h4>
+        <p class="text-gray-400 mb-6">Add your professional service and committee work to get started.</p>
+        <p class="text-sm text-gray-500">
+            Edit the <code class="bg-gray-200 px-2 py-1 rounded">data/service.yaml</code> file to add your service activities.
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

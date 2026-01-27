@@ -1,0 +1,84 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "cv-manager"
+version = "0.1.0"
+description = "A modern CV management system with YAML data, Jinja2 templates, and web interface"
+readme = "README.md"
+authors = [
+    {name = "Jason Hartford", email = "jason.hartford@manchester.ac.uk"}
+]
+license = {text = "MIT"}
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Topic :: Scientific/Engineering",
+    "Topic :: Text Processing :: Markup :: LaTeX",
+]
+keywords = ["cv", "resume", "latex", "academic", "jinja2", "yaml"]
+requires-python = ">=3.8"
+dependencies = [
+    "click>=8.0.0",
+    "flask>=2.0.0",
+    "jinja2>=3.0.0",
+    "pyyaml>=6.0.0",
+    "wtforms>=3.0.0",
+    "flask-wtf>=1.0.0",
+    "bibtexparser>=1.4.0",
+    "pydantic>=2.0.0",
+    "rich>=13.0.0",
+    "watchdog>=3.0.0",
+    "requests>=2.25.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=6.0.0",
+    "pytest-cov>=3.0.0",
+    "black>=22.0.0",
+    "isort>=5.0.0",
+    "flake8>=4.0.0",
+    "mypy>=1.0.0",
+]
+
+[project.urls]
+Homepage = "https://github.com/jasonhartford/cv-manager"
+Repository = "https://github.com/jasonhartford/cv-manager"
+Documentation = "https://github.com/jasonhartford/cv-manager/docs"
+
+[project.scripts]
+cv-manager = "cv_manager.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["cv_manager*"]
+
+[tool.setuptools.package-data]
+cv_manager = [
+    "templates/**/*.j2",
+    "web/templates/**/*.html",
+    "web/static/**/*",
+]
+
+[tool.black]
+line-length = 88
+target-version = ['py38']
+
+[tool.isort]
+profile = "black"
+multi_line_output = 3
+
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true

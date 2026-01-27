@@ -1,0 +1,179 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - CV Manager{% endblock %}
+{% block page_title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <!-- Welcome Section -->
+    <div class="card">
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-lg font-semibold text-gray-800">
+                    Welcome, {{ personal.personal.name if personal.personal else 'User' }}!
+                </h3>
+                <p class="text-gray-600 mt-1">
+                    {{ personal.personal.current_position if personal.personal else 'Position not set' }}
+                </p>
+                {% if personal.personal %}
+                <p class="text-sm text-gray-500">
+                    {{ personal.personal.department }}, {{ personal.personal.institution }}
+                </p>
+                {% endif %}
+            </div>
+            <div class="text-right">
+                <a href="{{ url_for('personal') }}" class="btn-primary">
+                    <i class="fas fa-edit mr-2"></i>
+                    Edit Profile
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
+        <div class="stat-card">
+            <div class="text-3xl font-bold text-blue-600">{{ stats.journal_papers }}</div>
+            <div class="text-sm text-gray-600">Journal Papers</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-3xl font-bold text-green-600">{{ stats.conference_papers }}</div>
+            <div class="text-sm text-gray-600">Conference Papers</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-3xl font-bold text-yellow-600">{{ stats.preprints }}</div>
+            <div class="text-sm text-gray-600">Preprints</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-3xl font-bold text-purple-600">{{ stats.grants }}</div>
+            <div class="text-sm text-gray-600">Grants</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-3xl font-bold text-red-600">{{ stats.awards }}</div>
+            <div class="text-sm text-gray-600">Awards</div>
+        </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div class="card hover:shadow-lg transition-shadow duration-200">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-book text-blue-600 text-2xl mr-3"></i>
+                <h4 class="text-lg font-semibold">Publications</h4>
+            </div>
+            <p class="text-gray-600 mb-4">Manage your research publications, conference papers, and preprints.</p>
+            <a href="{{ url_for('publications') }}" class="btn-primary">
+                View Publications
+            </a>
+        </div>
+
+        <div class="card hover:shadow-lg transition-shadow duration-200">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-award text-yellow-600 text-2xl mr-3"></i>
+                <h4 class="text-lg font-semibold">Grants & Awards</h4>
+            </div>
+            <p class="text-gray-600 mb-4">Track your research funding, fellowships, and recognition.</p>
+            <a href="{{ url_for('grants') }}" class="btn-primary">
+                View Grants
+            </a>
+        </div>
+
+        <div class="card hover:shadow-lg transition-shadow duration-200">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-chalkboard-teacher text-green-600 text-2xl mr-3"></i>
+                <h4 class="text-lg font-semibold">Teaching</h4>
+            </div>
+            <p class="text-gray-600 mb-4">Document your teaching experience and student supervision.</p>
+            <a href="{{ url_for('teaching') }}" class="btn-primary">
+                View Teaching
+            </a>
+        </div>
+
+        <div class="card hover:shadow-lg transition-shadow duration-200">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-hands-helping text-purple-600 text-2xl mr-3"></i>
+                <h4 class="text-lg font-semibold">Service</h4>
+            </div>
+            <p class="text-gray-600 mb-4">Record your professional service and committee work.</p>
+            <a href="{{ url_for('service') }}" class="btn-primary">
+                View Service
+            </a>
+        </div>
+
+        <div class="card hover:shadow-lg transition-shadow duration-200">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-microphone text-red-600 text-2xl mr-3"></i>
+                <h4 class="text-lg font-semibold">Talks</h4>
+            </div>
+            <p class="text-gray-600 mb-4">Manage your presentations, keynotes, and invited talks.</p>
+            <a href="{{ url_for('talks') }}" class="btn-primary">
+                View Talks
+            </a>
+        </div>
+
+        <div class="card hover:shadow-lg transition-shadow duration-200">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-file-pdf text-indigo-600 text-2xl mr-3"></i>
+                <h4 class="text-lg font-semibold">Build CV</h4>
+            </div>
+            <p class="text-gray-600 mb-4">Generate your CV in different formats and styles.</p>
+            <div class="space-y-2">
+                <button onclick="buildCV('promotion')" class="btn-secondary w-full">
+                    <i class="fas fa-graduation-cap mr-2"></i>
+                    Promotion CV
+                </button>
+                <button onclick="buildCV('academic-us')" class="btn-secondary w-full">
+                    <i class="fas fa-flag-usa mr-2"></i>
+                    US Academic
+                </button>
+                <button onclick="buildCV('academic-uk')" class="btn-secondary w-full">
+                    <i class="fas fa-crown mr-2"></i>
+                    UK Academic
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Recent Activity / Tips -->
+    <div class="card">
+        <h3 class="text-lg font-semibold text-gray-800 mb-4">Getting Started</h3>
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+                <h4 class="font-medium text-gray-800 mb-2">Quick Setup Checklist</h4>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li class="flex items-center">
+                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                        Complete your personal information
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                        Add your publications
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-check-circle text-green-500 mr-2"></i>
+                        Record your grants and awards
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-circle text-gray-300 mr-2"></i>
+                        Document teaching experience
+                    </li>
+                    <li class="flex items-center">
+                        <i class="fas fa-circle text-gray-300 mr-2"></i>
+                        Add service activities
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="font-medium text-gray-800 mb-2">Tips</h4>
+                <ul class="space-y-2 text-sm text-gray-600">
+                    <li>• Use the validation feature to check for data errors</li>
+                    <li>• Build your CV regularly to preview changes</li>
+                    <li>• Keep your data files backed up</li>
+                    <li>• Use consistent formatting for publication titles</li>
+                    <li>• Include DOIs and URLs where available</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

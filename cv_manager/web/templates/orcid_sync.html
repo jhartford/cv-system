@@ -1,0 +1,243 @@
+{% extends "base.html" %}
+
+{% block title %}ORCID Sync - CV Manager{% endblock %}
+{% block page_title %}ORCID Sync Management{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="card">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h3 class="text-xl font-semibold text-gray-800">Sync Publications to ORCID</h3>
+                <p class="text-gray-600 mt-1">Push your CV publications to your ORCID profile using OAuth 2.0.</p>
+            </div>
+            <div class="flex space-x-3">
+                <a href="{{ url_for('orcid_connect') }}" class="btn-primary">
+                    <i class="fab fa-orcid mr-2"></i>
+                    Connect ORCID
+                </a>
+                <a href="{{ url_for('publications') }}" class="btn-secondary">
+                    <i class="fas fa-list mr-2"></i>
+                    Publications
+                </a>
+                <a href="{{ url_for('dashboard') }}" class="btn-secondary">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Dashboard
+                </a>
+            </div>
+        </div>
+
+        <!-- Connected Profiles -->
+        {% if connected_profiles %}
+        <div class="mb-8">
+            <h4 class="text-lg font-semibold text-gray-800 mb-4">
+                <i class="fas fa-link mr-2 text-green-600"></i>
+                Connected ORCID Profiles
+            </h4>
+            <div class="space-y-3">
+                {% for orcid_id in connected_profiles %}
+                <div class="flex items-center justify-between p-4 border border-green-200 rounded-lg bg-green-50">
+                    <div class="flex items-center space-x-3">
+                        <i class="fab fa-orcid text-2xl text-green-600"></i>
+                        <div>
+                            <div class="font-medium text-gray-800">{{ orcid_id }}</div>
+                            <div class="text-sm text-gray-600">OAuth connected and ready for sync</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <a href="https://orcid.org/{{ orcid_id }}" target="_blank" class="btn-sm btn-secondary">
+                            <i class="fas fa-external-link-alt mr-1"></i>
+                            View Profile
+                        </a>
+                        <a href="{{ url_for('orcid_disconnect', orcid_id=orcid_id) }}"
+                           class="btn-sm btn-danger"
+                           onclick="return confirm('Are you sure you want to disconnect this ORCID profile?')">
+                            <i class="fas fa-unlink mr-1"></i>
+                            Disconnect
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Sync Form -->
+        {% if connected_profiles %}
+        <form method="POST" class="space-y-6">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+            <!-- ORCID Selection -->
+            <div class="form-group">
+                <label for="orcid_id" class="form-label">
+                    <i class="fab fa-orcid mr-2"></i>
+                    Select ORCID Profile *
+                </label>
+                <div class="mt-1">
+                    {% if connected_profiles|length == 1 %}
+                    <input type="hidden" name="orcid_id" value="{{ connected_profiles[0] }}">
+                    <div class="p-3 bg-gray-100 border rounded font-mono">{{ connected_profiles[0] }}</div>
+                    {% else %}
+                    <select name="orcid_id" id="orcid_id" class="form-input" required>
+                        <option value="">Choose an ORCID profile...</option>
+                        {% for orcid_id in connected_profiles %}
+                        <option value="{{ orcid_id }}">{{ orcid_id }}</option>
+                        {% endfor %}
+                    </select>
+                    {% endif %}
+                </div>
+            </div>
+
+            <!-- Sync Options -->
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="text-lg font-medium text-gray-800 mb-3">Sync Options</h4>
+                <div class="space-y-3">
+                    <div class="flex items-center">
+                        <input
+                            id="dry_run"
+                            name="dry_run"
+                            type="checkbox"
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                            checked
+                        >
+                        <label for="dry_run" class="ml-2 text-sm text-gray-700">
+                            <strong>Dry run (recommended)</strong>
+                            <div class="text-gray-500">Preview what would be synced without actually posting to ORCID</div>
+                        </label>
+                    </div>
+
+                    <div class="flex items-center">
+                        <input
+                            id="sandbox"
+                            name="sandbox"
+                            type="checkbox"
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        >
+                        <label for="sandbox" class="ml-2 text-sm text-gray-700">
+                            <strong>Use sandbox environment</strong>
+                            <div class="text-gray-500">Sync to ORCID sandbox instead of production (for testing)</div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sync Preview -->
+            <div class="bg-blue-50 p-4 rounded-lg">
+                <h4 class="text-lg font-medium text-blue-800 mb-2">
+                    <i class="fas fa-sync-alt mr-2"></i>
+                    What Will Be Synced
+                </h4>
+                <div class="text-sm text-blue-700 space-y-2">
+                    <p><strong>Publication Categories:</strong> All categories from your publications.yaml will be processed</p>
+                    <ul class="list-disc list-inside ml-4 space-y-1">
+                        <li>Journal Papers → journal-article</li>
+                        <li>Conference Papers → conference-paper</li>
+                        <li>Preprints → preprint</li>
+                        <li>Under Review → working-paper</li>
+                        <li>Workshop Papers → conference-poster</li>
+                    </ul>
+                    <p><strong>Duplicate Prevention:</strong> Publications already in your ORCID profile (by title) will be skipped</p>
+                    <p><strong>Metadata Included:</strong> Title, authors, journal/venue, year, DOI, URLs</p>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                <div class="text-sm text-gray-500">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    Start with a dry run to preview changes
+                </div>
+                <div class="space-x-3">
+                    <a href="{{ url_for('publications') }}" class="btn-secondary">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn-primary" id="sync-btn">
+                        <i class="fas fa-sync-alt mr-2"></i>
+                        Start Sync
+                    </button>
+                </div>
+            </div>
+        </form>
+
+        {% else %}
+        <!-- No Connected Profiles -->
+        <div class="text-center py-12">
+            <div class="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-gray-100">
+                <i class="fab fa-orcid text-gray-400 text-xl"></i>
+            </div>
+            <h3 class="mt-2 text-sm font-medium text-gray-900">No ORCID profiles connected</h3>
+            <p class="mt-1 text-sm text-gray-500">Connect your ORCID profile to sync publications.</p>
+            <div class="mt-6">
+                <a href="{{ url_for('orcid_connect') }}" class="btn-primary">
+                    <i class="fab fa-orcid mr-2"></i>
+                    Connect ORCID Profile
+                </a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Sync Instructions -->
+    <div class="mt-8 card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-info-circle mr-2"></i>
+            How ORCID Sync Works
+        </h4>
+        <div class="space-y-4">
+            <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-semibold">1</div>
+                <div>
+                    <p class="font-medium text-gray-800">Authorize with OAuth 2.0</p>
+                    <p class="text-gray-600">Connect your ORCID profile using secure OAuth authentication to grant read/write permissions.</p>
+                </div>
+            </div>
+            <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-semibold">2</div>
+                <div>
+                    <p class="font-medium text-gray-800">Review publications</p>
+                    <p class="text-gray-600">CV Manager reads your current publications.yaml and compares with existing ORCID works to avoid duplicates.</p>
+                </div>
+            </div>
+            <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0 w-6 h-6 bg-blue-100 text-blue-600 rounded-full flex items-center justify-center text-sm font-semibold">3</div>
+                <div>
+                    <p class="font-medium text-gray-800">Sync to ORCID</p>
+                    <p class="text-gray-600">New publications are posted to your ORCID profile using the appropriate work types and metadata.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-6 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+            <div class="flex items-start space-x-2">
+                <i class="fas fa-exclamation-triangle text-yellow-600 mt-1"></i>
+                <div class="text-sm text-yellow-800">
+                    <strong>Important Notes:</strong>
+                    <ul class="list-disc list-inside ml-4 mt-2 space-y-1">
+                        <li>OAuth tokens are stored temporarily in your browser session</li>
+                        <li>Always start with a dry run to preview changes</li>
+                        <li>You can revoke CV Manager's access anytime in your ORCID account settings</li>
+                        <li>Duplicate detection is based on publication titles</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Form submission loading state
+    const form = document.querySelector('form');
+    const syncBtn = document.getElementById('sync-btn');
+
+    if (form && syncBtn) {
+        form.addEventListener('submit', function() {
+            syncBtn.disabled = true;
+            const isDryRun = document.getElementById('dry_run').checked;
+            const action = isDryRun ? 'Previewing' : 'Syncing';
+            syncBtn.innerHTML = `<i class="fas fa-spinner fa-spin mr-2"></i>${action}...`;
+        });
+    }
+</script>
+{% endblock %}
+{% endblock %}

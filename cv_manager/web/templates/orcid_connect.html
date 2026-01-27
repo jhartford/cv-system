@@ -1,0 +1,254 @@
+{% extends "base.html" %}
+
+{% block title %}Connect ORCID - CV Manager{% endblock %}
+{% block page_title %}Connect to ORCID{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="card">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h3 class="text-xl font-semibold text-gray-800">Connect Your ORCID Profile</h3>
+                <p class="text-gray-600 mt-1">Authorize CV Manager to read from and write to your ORCID profile.</p>
+            </div>
+            <div class="flex space-x-3">
+                <a href="{{ url_for('orcid_sync') }}" class="btn-secondary">
+                    <i class="fas fa-sync-alt mr-2"></i>
+                    Manage Sync
+                </a>
+                <a href="{{ url_for('publications') }}" class="btn-secondary">
+                    <i class="fas fa-list mr-2"></i>
+                    Publications
+                </a>
+                <a href="{{ url_for('dashboard') }}" class="btn-secondary">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Dashboard
+                </a>
+            </div>
+        </div>
+
+        <!-- OAuth Connection Form -->
+        <form method="POST" class="space-y-6">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+            <!-- ORCID ID Input -->
+            <div class="form-group">
+                <label for="orcid_id" class="form-label">
+                    <i class="fab fa-orcid mr-2"></i>
+                    ORCID ID *
+                </label>
+                <div class="mt-1">
+                    <input
+                        type="text"
+                        id="orcid_id"
+                        name="orcid_id"
+                        class="form-input"
+                        placeholder="0000-0000-0000-0000 or https://orcid.org/0000-0000-0000-0000"
+                        pattern="(https:\\/\\/orcid\\.org\\/)?\\d{4}-\\d{4}-\\d{4}-\\d{3}[\\dX]"
+                        required
+                    >
+                </div>
+                <p class="text-sm text-gray-500 mt-1">
+                    Enter your ORCID identifier to connect with OAuth 2.0.
+                </p>
+                <div id="orcid-preview" class="hidden mt-2 p-2 bg-blue-50 rounded border">
+                    <div class="flex items-center text-sm text-blue-700">
+                        <i class="fab fa-orcid mr-2"></i>
+                        <span>ORCID Profile: </span>
+                        <a id="orcid-link" href="#" target="_blank" class="ml-1 font-medium hover:underline"></a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OAuth Options -->
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="text-lg font-medium text-gray-800 mb-3">OAuth Settings</h4>
+                <div class="space-y-3">
+                    <div class="flex items-center">
+                        <input
+                            id="sandbox"
+                            name="sandbox"
+                            type="checkbox"
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                        >
+                        <label for="sandbox" class="ml-2 text-sm text-gray-700">
+                            <strong>Use sandbox environment</strong>
+                            <div class="text-gray-500">Connect to ORCID sandbox for testing (check only if using test credentials)</div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- OAuth Permissions -->
+            <div class="bg-green-50 p-4 rounded-lg">
+                <h4 class="text-lg font-medium text-green-800 mb-2">
+                    <i class="fas fa-shield-alt mr-2"></i>
+                    OAuth Permissions Requested
+                </h4>
+                <div class="text-sm text-green-700 space-y-2">
+                    <p><strong>This application will request the following permissions:</strong></p>
+                    <ul class="list-disc list-inside ml-4 space-y-1">
+                        <li><code>/read-limited</code> - Read your ORCID profile and works</li>
+                        <li><code>/activities/update</code> - Add, edit, and delete works in your profile</li>
+                    </ul>
+                    <p class="mt-3"><strong>What happens during OAuth:</strong></p>
+                    <ol class="list-decimal list-inside ml-4 space-y-1">
+                        <li>You'll be redirected to ORCID's secure authorization page</li>
+                        <li>You'll review and approve the requested permissions</li>
+                        <li>ORCID will redirect you back to CV Manager with an authorization code</li>
+                        <li>CV Manager will exchange the code for an access token (stored securely)</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Security Notice -->
+            <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                <h4 class="text-lg font-medium text-blue-800 mb-2">
+                    <i class="fas fa-lock mr-2"></i>
+                    Security & Privacy
+                </h4>
+                <div class="text-sm text-blue-700 space-y-2">
+                    <p><strong>Secure OAuth 2.0:</strong> We use ORCID's official OAuth 2.0 flow with CSRF protection.</p>
+                    <p><strong>Token Storage:</strong> Access tokens are temporarily stored in your browser session only.</p>
+                    <p><strong>No Password Required:</strong> CV Manager never sees your ORCID password.</p>
+                    <p><strong>Revoke Access:</strong> You can revoke CV Manager's access anytime in your ORCID account settings.</p>
+                    <p><strong>Limited Scope:</strong> We only request the minimum permissions needed for publication sync.</p>
+                </div>
+            </div>
+
+            <!-- Prerequisites -->
+            <div class="bg-yellow-50 p-4 rounded-lg border border-yellow-200">
+                <h4 class="text-lg font-medium text-yellow-800 mb-2">
+                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                    OAuth Setup Required
+                </h4>
+                <div class="text-sm text-yellow-800 space-y-2">
+                    <p><strong>Environment Variables Required:</strong></p>
+                    <ul class="list-disc list-inside ml-4 space-y-1">
+                        <li><code>ORCID_CLIENT_ID</code> - Your ORCID OAuth application client ID</li>
+                        <li><code>ORCID_CLIENT_SECRET</code> - Your ORCID OAuth application client secret</li>
+                    </ul>
+                    <p class="mt-2"><strong>How to get ORCID OAuth credentials:</strong></p>
+                    <ol class="list-decimal list-inside ml-4 space-y-1">
+                        <li>Register for ORCID Member API access at <a href="https://orcid.org/developer-tools" target="_blank" class="underline">orcid.org/developer-tools</a></li>
+                        <li>Create a new OAuth application in your ORCID developer dashboard</li>
+                        <li>Set the redirect URI to: <code>{{ url_for('orcid_callback', _external=True) }}</code></li>
+                        <li>Copy the client ID and secret to your environment variables</li>
+                    </ol>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                <div class="text-sm text-gray-500">
+                    <i class="fas fa-info-circle mr-1"></i>
+                    You'll be redirected to ORCID for secure authorization
+                </div>
+                <div class="space-x-3">
+                    <a href="{{ url_for('publications') }}" class="btn-secondary">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn-primary" id="connect-btn">
+                        <i class="fab fa-orcid mr-2"></i>
+                        Connect to ORCID
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Current Redirect URI -->
+    <div class="mt-8 card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-cog mr-2"></i>
+            OAuth Configuration
+        </h4>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">OAuth Redirect URI</label>
+                <div class="mt-1 p-3 bg-gray-100 rounded border font-mono text-sm">
+                    {{ url_for('orcid_callback', _external=True) }}
+                </div>
+                <p class="text-sm text-gray-600 mt-1">
+                    Use this URL as the redirect URI in your ORCID OAuth application settings.
+                </p>
+            </div>
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Required Scopes</label>
+                <div class="mt-1 p-3 bg-gray-100 rounded border">
+                    <code>/read-limited /activities/update</code>
+                </div>
+                <p class="text-sm text-gray-600 mt-1">
+                    These scopes allow reading your profile and updating your publications.
+                </p>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // ORCID ID validation and preview (same as import page)
+    const orcidInput = document.getElementById('orcid_id');
+    const orcidPreview = document.getElementById('orcid-preview');
+    const orcidLink = document.getElementById('orcid-link');
+
+    orcidInput.addEventListener('input', function(e) {
+        const value = e.target.value.trim();
+
+        if (value) {
+            // Extract ORCID ID from various formats
+            let orcidId = value.replace(/^https?:\/\/orcid\.org\//, '');
+            orcidId = orcidId.replace(/[^\d\-X]/g, '');
+
+            // Add dashes if missing
+            if (orcidId.length === 16 && orcidId.indexOf('-') === -1) {
+                orcidId = orcidId.substring(0,4) + '-' +
+                         orcidId.substring(4,8) + '-' +
+                         orcidId.substring(8,12) + '-' +
+                         orcidId.substring(12,16);
+            }
+
+            // Validate format
+            const orcidPattern = /^\d{4}-\d{4}-\d{4}-\d{3}[\dX]$/;
+            if (orcidPattern.test(orcidId)) {
+                orcidLink.textContent = `https://orcid.org/${orcidId}`;
+                orcidLink.href = `https://orcid.org/${orcidId}`;
+                orcidPreview.classList.remove('hidden');
+            } else {
+                orcidPreview.classList.add('hidden');
+            }
+        } else {
+            orcidPreview.classList.add('hidden');
+        }
+    });
+
+    // Auto-format ORCID ID on blur
+    orcidInput.addEventListener('blur', function(e) {
+        const value = e.target.value.trim();
+        if (value) {
+            let orcidId = value.replace(/^https?:\/\/orcid\.org\//, '');
+            orcidId = orcidId.replace(/[^\d\-X]/g, '').toUpperCase();
+
+            if (orcidId.length === 16 && orcidId.indexOf('-') === -1) {
+                orcidId = orcidId.substring(0,4) + '-' +
+                         orcidId.substring(4,8) + '-' +
+                         orcidId.substring(8,12) + '-' +
+                         orcidId.substring(12,16);
+            }
+
+            e.target.value = orcidId;
+        }
+    });
+
+    // Form submission loading state
+    const form = document.querySelector('form');
+    const connectBtn = document.getElementById('connect-btn');
+
+    form.addEventListener('submit', function() {
+        connectBtn.disabled = true;
+        connectBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Connecting...';
+    });
+</script>
+{% endblock %}
+{% endblock %}

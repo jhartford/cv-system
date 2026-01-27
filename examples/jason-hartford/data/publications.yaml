@@ -1,0 +1,331 @@
+preprints:
+- title: 'Virtual Cells: Predict, Explain, Discover'
+  authors:
+  - Emmanuel Noutahi
+  - Jason Hartford
+  - Prudencio Tossou
+  - Shawn Whitfield
+  - Alisandra K Denton
+  - Cas Wognum
+  - Kristina Ulicna
+  - Jonathan Hsu
+  - Michael Cuccarese
+  - Emmanuel Bengio
+  - Dominique Beaini
+  - Christopher Gibson
+  - Daniel Cohen
+  - Berton Earnshaw
+  year: 2025
+conference_papers:
+  2025:
+  - title: 'ViTally Consistent: Scaling Biological Representation Learning for Cell Microscopy'
+    authors:
+    - Kian Kenyon-Dean
+    - Zitong Jerry Wang
+    - John Urbanik
+    - Konstantin Donhauser
+    - Jason Hartford
+    - Saber Saberian
+    - Nil Sahin
+    - Ihab Bendidi
+    - Safiye Celik
+    - Marta Fay
+    - Juan Sebastián Rodríguez Vera
+    - Imran S Haque
+    year: 2025
+    venue: '*ICML 2025*'
+  - title: 'Towards scientific discovery with dictionary learning: Extracting biological concepts from microscopy foundation models'
+    authors:
+    - Konstantin Donhauser
+    - Kristina Ulicna
+    - Gemma Elyse Moran
+    - Aditya Ravuri
+    - Kian Kenyon-Dean
+    - Cian Eastwood
+    - Jason Hartford
+    year: 2025
+    venue: '*ICML 2025*'
+  - title: Efficient Biological Data Acquisition through Inference Set Design
+    authors:
+    - Ihor Neporozhnii
+    - Julien Roy
+    - Emmanuel Bengio
+    - Jason Hartford
+    year: 2025
+    venue: '*ICLR 2025*'
+  2024:
+  - title: Propensity Score Alignment of Unpaired Multimodal Data
+    authors:
+    - Johnny Xi
+    - Jason Hartford
+    year: 2024
+    venue: '*NeurIPS 2024*'
+  - title: Targeted Sequential Indirect Experiment Design
+    authors:
+    - E Ailer
+    - N Dern
+    - J Hartford
+    - N Kilbertus
+    year: 2024
+    venue: '*NeurIPS 2024*'
+  - title: UNSAT Solver Synthesis via Monte Carlo Forest Search
+    authors:
+    - Chris Cameron
+    - Jason Hartford
+    - Taylor Lundy
+    - Tuan Truong
+    - Alan Milligan
+    - Rex Chen
+    - Kevin Leyton-Brown
+    year: 2025
+    venue: '*International Conference on the Integration of Constraint Programming, Artificial Intelligence, and Operations Research*'
+  - title: Object-centric architectures enable efficient causal representation learnings
+    authors:
+    - Amin Mansouri
+    - Jason Hartford
+    - Yan Zhang
+    - Yoshua Bengio
+    year: 2024
+    venue: '*ICLR 2024*'
+  2023:
+  - title: 'DynGFN: Towards Bayesian Inference of Gene Regulatory Networks with GFlowNets'
+    authors:
+    - Lazar Atanackovic
+    - Alexander Tong
+    - Bo Wang
+    - Leo J Lee
+    - Yoshua Bengio
+    - Jason Hartford
+    year: 2023
+    venue: '*NeurIPS 2023*'
+  - title: Sequential Underspecified Instrument Selection for Cause-Effect Estimation
+    authors:
+    - Elisabeth Ailer
+    - Jason Hartford
+    - Niki Kilbertus
+    year: 2023
+    venue: '*ICML 2023*'
+    type: oral
+    acceptance_rate: 2% acceptance rate
+  2022:
+  - title: Weakly Supervised Representation Learning with Sparse Perturbations
+    authors:
+    - Kartik Ahuja
+    - Jason Hartford
+    - Yoshua Bengio
+    year: 2022
+    venue: '*NeurIPS 2022*'
+  - title: 'Properties from mechanisms: an equivariance perspective on identifiable representation learning'
+    authors:
+    - Kartik Ahuja*
+    - Jason Hartford\*
+    - Yoshua Bengio
+    year: 2022
+    venue: '*ICLR 2022*'
+    acceptance_rate: 5.2% acceptance rate
+  - title: The Perils of Learning Before Optimizing
+    authors:
+    - Chris Cameron
+    - Jason Hartford
+    - Taylor Lundy
+    - Kevin Leyton-Brown
+    year: 2022
+    venue: '*AAAI 2022*'
+  2021:
+  - title: Valid Causal Inference with (Some) Invalid Instruments
+    authors:
+    - Jason Hartford
+    - Victor Veitch
+    - Dhanya Sridhar
+    - Kevin Leyton-Brown
+    year: 2021
+    venue: '*ICML 2021*'
+  2020:
+  - title: Exemplar Guided Active Learning
+    authors:
+    - Jason Hartford
+    - Kevin Leyton-Brown
+    - Hadas Raviv
+    - Dan Padnos
+    - Shahar Lev
+    - Barak Lenz
+    year: 2020
+    venue: '*NeurIPS 2020*'
+  - title: Predicting Propositional Satisfiability via End-to-End Learning
+    authors:
+    - Chris Cameron
+    - Rex Chen
+    - Jason Hartford
+    - Kevin Leyton-Brown
+    year: 2020
+    venue: '*AAAI 2020*'
+  2018:
+  - title: Deep Models of Interactions Across Sets
+    authors:
+    - Jason Hartford\*
+    - Devon R Graham\*
+    - Kevin Leyton-Brown
+    - Siamak Ravanbakhsh
+    year: 2018
+    venue: '*ICML 2018*'
+  2017:
+  - title: 'Deep IV: A Flexible Approach for Counterfactual Prediction'
+    authors:
+    - Jason Hartford
+    - Greg Lewis
+    - Kevin Leyton-Brown and Matt Taddy
+    year: 2017
+    venue: '*ICML 2017*'
+  2016:
+  - title: Deep Learning for Predicting Human Strategic Behavior
+    authors:
+    - Jason Hartford
+    - James R. Wright
+    - and Kevin Leyton-Brown
+    year: 2016
+    venue: '*NIPS 2016*'
+    type: oral
+    acceptance_rate: 1.7% acceptance rate
+journal_papers:
+- title: A flexible machine learning Mendelian randomization estimator applied to predict the safety and efficacy of sclerostin inhibition
+  authors:
+  - Marc-André Legault
+  - Jason Hartford
+  - Benoît J Arsenault
+  - Archer Y Yang
+  - Joelle Pineau
+  year: 2025
+  venue: '*The American Journal of Human Genetics*'
+- title: Evaluating machine learning instrumental variable methods to estimate conditional treatment effects in Mendelian randomization
+  authors:
+  - Marc-Andre Legault
+  - Jason Hartford
+  - Benoit J Arsenault
+  - Archer Y Yang
+  - Joelle Pineau
+  year: 2024
+  venue: '*Genetic Epidemiology*'
+- title: GFlowNets for AI-driven scientific discovery
+  authors:
+  - Moksh Jain
+  - Tristan Deleu
+  - Jason Hartford
+  - Cheng-Hao Liu
+  - Alex Hernandez-Garcia
+  - Yoshua Bengio
+  year: 2023
+  venue: '*Digital Discovery*'
+under_review:
+- title: 'LLMs for Bayesian Optimization in Scientific Domains: Are We There Yet?'
+  authors:
+  - Rushil Gupta
+  - Jason Hartford
+  - Bang Liu
+  year: 2024
+- title: Automated Discovery of Pairwise Interactions from Unstructured Data
+  authors:
+  - David Xu
+  - Moksh Jain
+  - Ali Denton
+  - Shawn Whitfield
+  - Aniket Didolkar
+  - Berton Earnshaw
+  - Jason Hartford
+  year: 2024
+- title: 'ViTally Consistent: Scaling Biological Representation Learning for Cell Microscopy'
+  authors:
+  - Kian Kenyon-Dean
+  - Zitong Jerry Wang
+  - John Urbanik
+  - Konstantin Donhauser
+  - Jason Hartford
+  - Saber Saberian
+  - Nil Sahin
+  - Ihab Bendidi
+  - Safiye Celik
+  - Marta Fay
+  - Juan Sebastian Rodriguez Vera
+  - Imran S Haque
+  - Oren Kraus
+  year: 2024
+- title: A novel and efficient machine learning Mendelian randomization estimator applied to predict the safety and efficacy of sclerostin inhibition
+  authors:
+  - Marc-André Legault
+  - Jason Hartford
+  - Benoît J Arsenault
+  - Archer Y Yang
+  - Joelle Pineau
+  year: 2024
+workshop_papers:
+- title: Automated Discovery of Pairwise Interactions from Unstructured Data
+  authors:
+  - Moksh Jain
+  - Ali Denton
+  - Shawn Whitfield
+  - Aniket Didolkar
+  - Berton Earnshaw
+  - Jason Hartford
+  year: 2024
+  venue: MLGenX 2023
+  type: poster
+  award: Best Poster Award
+- title: 'ViTally Consistent: Scaling Biological Representation Learning for Cell Microscopy'
+  authors:
+  - Kian Kenyon-Dean
+  - Zitong Jerry Wang
+  - John Urbanik
+  - Konstantin Donhauser
+  - Jason Hartford
+  - Saber Saberian
+  - Nil Sahin
+  - Ihab Bendidi
+  - Safiye Celik
+  - Marta Fay
+  - Juan Sebastian Rodriguez Vera
+  - Imran S Haque
+  - Oren Kraus
+  year: 2024
+  award: Best Paper Award
+- title: Object-centric causal representation learning
+  authors:
+  - Amin Mansouri
+  - Jason Hartford
+  - Kartik Ahuja
+  - Yoshua Bengio
+  year: 2022
+  venue: NeurReps workshop at NeurIPS 2022
+- title: Bayesian Dynamic Causal Discovery
+  authors:
+  - Alexander Tong
+  - Lazar Atanackovic
+  - Jason Hartford
+  - Yoshua Bengio
+  year: 2022
+  venue: Causality-dynamical systems workshop at NeurIPS 2022
+- title: 'Leveraging Structure Between Environments: Phylogenetic Regularization Incentivizes Disentangled Representations'
+  authors:
+  - Elliot Layne
+  - Dhanya Sridhar
+  - Jason Hartford and Mathieu Blanchette
+  year: 2022
+  venue: Workshop on Causal Representation Learning at UAI 2022
+- title: Identifying Valid Instruments via Effect Agreement
+  authors:
+  - Jason Hartford
+  - Kevin Leyton-Brown
+  year: 2019
+- title: Predicting Propositional Satisfiability via End-to-End Learning
+  authors:
+  - Chris Cameron
+  - Rex Chen
+  - Jason Hartford
+  - Kevin Leyton-Brown
+  year: 2019
+  venue: Graph Representation Learning Workshop at NeurIPS 2019
+- title: Deep Counterfactual Prediction using Instrumental Variables
+  authors:
+  - Jason Hartford
+  - Greg Lewis
+  - Kevin Leyton-Brown and Matt Taddy
+  year: 2016
+  venue: What if? Inference and Learning of Hypothetical and Counterfactual Interventions in Complex Systems, NIPS Workshop 2016

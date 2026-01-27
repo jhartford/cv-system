@@ -1,0 +1,263 @@
+{% extends "base.j2" %}
+
+{% set config = {
+    "title": "Promotion CV",
+    "header_right": "Promotion CV — Faculty of Science & Engineering",
+    "font_size": "10pt",
+    "margin": "22mm"
+} %}
+
+{% block page_style %}
+% ---------- Page style ----------
+\pagestyle{fancy}
+\fancyhf{}
+\rhead{\small Promotion CV — Faculty of Science \& Engineering}
+\lhead{\small {{ personal.name | latex_escape }}}
+\cfoot{\small Page \thepage\ of \pageref{LastPage}}
+{% endblock %}
+
+{% block header %}
+% =================== Header ===================
+{\LARGE\bf {{ personal.name | latex_escape }}}\\
+{\large {{ personal.current_position | latex_escape }}}\\
+{{ personal.department | latex_escape }}, Faculty of Science \& Engineering, University of Manchester\\
+\vspace{0.2em}
+\separator
+\begin{tabularx}{\textwidth}{@{}L{22mm}X@{}}
+Email & \href{mailto:{{ personal.email | latex_escape }}}{ {{ personal.email | latex_escape }} }\\
+{%- if personal.orcid %}
+ORCID & \href{https://orcid.org/{{ personal.orcid | latex_escape }}}{ {{ personal.orcid | latex_escape }} }\\
+{%- endif %}
+{%- if personal.website %}
+Web & \href{ {{ personal.website | latex_escape }} }{ {{ personal.website | latex_escape }} }\\
+{%- endif %}
+\end{tabularx}
+\vspace{0.6em}
+\noindent Last updated: \today
+{% endblock %}
+
+{% block content %}
+% =================== A. Personal information ===================
+\section*{A. Personal information}
+\field{Name}{ {{ personal.name | latex_escape }} }
+
+{%- if education %}
+\field{Education}{Schools and universities attended (reverse chronology).}
+\begin{itemize}
+{%- for edu in education | sort(attribute='year', reverse=true) %}
+  \item {{ edu.degree | latex_escape }}, {{ edu.institution | latex_escape }}, {{ edu.year }}
+  {%- if edu.thesis %} — Thesis: {{ edu.thesis | latex_escape }}
+  {%- if edu.supervisor %} (Supervisor: {{ edu.supervisor | latex_escape }}){% endif %}
+  {%- endif %}
+
+{%- endfor %}
+\end{itemize}
+{%- endif %}
+
+\field{Present appointment}{ {{ personal.current_position | latex_escape }}, {{ personal.department | latex_escape }}, FSE, UoM}
+
+% =================== B. Research contributions ===================
+\section*{B. Research contributions}
+
+\subsection*{1. Publications}
+\textit{List with most recent first. Separate peer-reviewed and not peer-reviewed. Include journal papers, books authored/edited, chapters, policy/governmental reports, case reports, (space permitting) conference contributions and abstracts.}
+
+{% if publications.journal_papers or publications.conference_papers %}
+\subsubsection*{(a) Peer reviewed}
+\begin{enumerate}
+{%- for paper in publications.journal_papers %}
+  \pubitem{ {{ paper.authors | join(', ') | latex_escape }} }{ {{ paper.title | latex_escape }} }{ {{ (paper.journal | default(paper.venue)) | latex_escape }} }{ {{ paper.year }}{% if paper.volume %}, vol. {{ paper.volume }}{% endif %}{% if paper.pages %}, pp. {{ paper.pages }}{% endif %}{% if paper.doi %}. DOI: {{ paper.doi }}{% endif %}}
+{%- endfor %}
+
+{%- if publications.conference_papers %}
+{%- for year in publications.conference_papers.keys() | sort(reverse=true) %}
+{%- for paper in publications.conference_papers[year] %}
+  \pubitem{ {{ paper.authors | join(', ') | latex_escape }} }{ {{ paper.title | latex_escape }} }{ {{ paper.venue | latex_escape }} }{ {{ paper.year }}{% if paper.type %} ({{ paper.type }}){% endif %}{% if paper.acceptance_rate %} — {{ paper.acceptance_rate | latex_escape }}{% endif %}}
+{%- endfor %}
+{%- endfor %}
+{%- endif %}
+\end{enumerate}
+{% endif %}
+
+{% if publications.preprints or publications.under_review %}
+\subsubsection*{(b) Not peer reviewed}
+\begin{enumerate}
+{%- for paper in publications.preprints %}
+  \pubitem{ {{ paper.authors | join(', ') | latex_escape }} }{ {{ paper.title | latex_escape }} }{Preprint}{ {{ paper.year }}{% if paper.arxiv %} arXiv:{{ paper.arxiv }}{% endif %}}
+
+{%- endfor %}
+{%- for paper in publications.under_review %}
+  \pubitem{ {{ paper.authors | join(', ') | latex_escape }} }{ {{ paper.title | latex_escape }} }{Under Review}{ {{ paper.year }}{% if paper.venue %} ({{ paper.venue | latex_escape }}){% endif %}}
+
+{%- endfor %}
+\end{enumerate}
+{% endif %}
+
+{% if grants.fellowships or grants.grants %}
+\subsection*{2. Details of grants awarded}
+\textit{Include funder, scheme, title, role, amount, dates; reverse chronology.}
+\begin{itemize}
+{%- for grant in grants.fellowships %}
+  \grantitem{ {{ grant.title | latex_escape }} }{ {{ (grant.organization | default("Fellowship")) | latex_escape }} }{ {{ grant.year }} }{Fellow}{ {{ (grant.amount | default("Not specified")) | latex_escape }} }{ {{ (grant.description | default("")) | latex_escape }} }
+
+{%- endfor %}
+{%- for grant in grants.grants %}
+  \grantitem{ {{ grant.title | latex_escape }} }{ {{ (grant.organization | default("Grant")) | latex_escape }} }{ {{ grant.year }} }{ {{ (grant.role | default("PI")) | latex_escape }} }{ {{ (grant.amount | default("Not specified")) | latex_escape }} }{ {{ (grant.description | default("")) | latex_escape }} }
+
+{%- endfor %}
+\end{itemize}
+{% endif %}
+
+{% if grants.conference_awards or grants.university_awards or grants.research_awards %}
+\subsection*{3. Any other research achievement}
+\begin{itemize}
+{%- for award in grants.conference_awards + grants.university_awards + grants.research_awards %}
+  \item {{ award.title | latex_escape }} — {{ award.year }}{% if award.amount %} ({{ award.amount | latex_escape }}){% endif %}{% if award.description %}: {{ award.description | latex_escape }}{% endif %}
+
+{%- endfor %}
+{%- if talks.keynotes %}
+{%- for talk in talks.keynotes %}
+  \item Keynote: "{{ talk.title | latex_escape }}" — {{ talk.venue | latex_escape }}, {{ talk.year }}{% if talk.location %}, {{ talk.location | latex_escape }}{% endif %}
+
+{%- endfor %}
+{%- endif %}
+\end{itemize}
+{% endif %}
+
+{% if teaching.supervision %}
+\subsection*{4. Supervision of research students}
+\textit{List doctoral and postgraduate researchers; roles and outcomes.}
+\begin{itemize}
+{%- for student in teaching.supervision | sort(attribute='year', reverse=true) %}
+  \supervision{ {{ student.student | latex_escape }} }{ {{ student.level | latex_escape }}{% if student.institution %}, {{ student.institution | latex_escape }}{% endif %} }{ {{ (student.role | default("Supervisor")) | latex_escape }} }{ {{ student.year }}{% if student.status %}, {{ student.status | latex_escape }}{% endif %}{% if student.collaborator %}, with {{ student.collaborator | latex_escape }}{% endif %}}
+
+{%- endfor %}
+\end{itemize}
+{% endif %}
+
+\subsection*{5. Organisation, promotion and/or management of research}
+\begin{itemize}
+  \item Research group leadership at University of Manchester
+
+{%- if service.workshops %}
+{%- for workshop in service.workshops %}
+  \item Workshop organization: {{ workshop.venue | latex_escape }}, {{ workshop.year }}
+
+{%- endfor %}
+{%- endif %}
+\end{itemize}
+
+% =================== C. Other evidence of academic & professional standing ===================
+\section*{C. Other evidence of academic and professional standing}
+\begin{itemize}
+{%- if service.conference_reviews %}
+  \item Conference reviewing:
+{%- for review in service.conference_reviews %}
+{{ review.venue | latex_escape }}{% if review.years %} ({{ review.years | join(', ') }}){% endif %}{% if not loop.last %}, {% endif %}
+{%- endfor %}
+
+{%- endif %}
+{%- if service.journal_reviews %}
+  \item Journal reviewing:
+{%- for review in service.journal_reviews %}
+{{ review.venue | latex_escape }} ({{ review.year }}){% if not loop.last %}, {% endif %}
+{%- endfor %}
+
+{%- endif %}
+{%- if talks.invited %}
+{%- for talk in talks.invited %}
+  \item Invited talk: "{{ talk.title | latex_escape }}" — {{ talk.venue | latex_escape }}, {{ talk.year }}{% if talk.location %}, {{ talk.location | latex_escape }}{% endif %}
+
+{%- endfor %}
+{%- endif %}
+\end{itemize}
+
+% =================== D. Scholarship ===================
+\section*{D. Scholarship}
+\begin{itemize}
+  \item Evidence-based enhancement/development of teaching and learning
+
+{%- if teaching.experience %}
+{%- for exp in teaching.experience %}
+  \item {{ exp.role | latex_escape }} — {{ (exp.course | default("Various courses")) | latex_escape }}, {{ exp.institution | latex_escape }}, {{ exp.year }}
+
+{%- endfor %}
+{%- endif %}
+\end{itemize}
+
+% =================== E. Teaching and learning ===================
+\section*{E. Teaching and learning}
+\subsection*{1. Current and previous teaching duties}
+\begin{itemize}
+{%- for exp in teaching.experience | sort(attribute='year', reverse=true) %}
+  \item {{ (exp.course | default("Course")) | latex_escape }} ({{ (exp.level | default("UG/PG")) | latex_escape }}), {{ exp.year }}: \emph{ {{ exp.role | latex_escape }} }{% if exp.instructor and exp.instructor != personal.name %} with {{ exp.instructor | latex_escape }}{% endif %}.{% if exp.students %} {{ exp.students | latex_escape }}.{% endif %}
+
+{%- endfor %}
+\end{itemize}
+
+\subsection*{2. Innovation; curriculum/assessment development}
+\begin{itemize}
+  \item Active learning methodologies in machine learning courses
+  \item Development of practical programming assignments
+\end{itemize}
+
+\subsection*{3. External assessments of teaching ability}
+\begin{itemize}
+  \item Positive student feedback across all courses taught
+\end{itemize}
+
+\subsection*{4. Teaching/assessment outside UoM}
+\begin{itemize}
+{%- if talks.invited %}
+{%- for talk in talks.invited %}
+{%- if 'tutorial' in talk.title.lower() or 'teaching' in talk.title.lower() or 'summer school' in talk.venue.lower() %}
+  \item Tutorial: "{{ talk.title | latex_escape }}" — {{ talk.venue | latex_escape }}, {{ talk.year }}
+
+{%- endif %}
+{%- endfor %}
+{%- endif %}
+\end{itemize}
+
+% =================== F. Leadership and/or management roles ===================
+\section*{F. Leadership and/or management roles}
+\begin{itemize}
+  \item Faculty search committee member
+
+{%- if service.workshops %}
+  \item Conference program committee service:
+{%- for workshop in service.workshops %}
+{{ workshop.venue | latex_escape }} ({{ workshop.year }}){% if not loop.last %}, {% endif %}
+{%- endfor %}
+
+{%- endif %}
+\end{itemize}
+
+% =================== G. Innovation, Knowledge Exchange and External Engagement ===================
+\section*{G. Innovation, Knowledge Exchange and External Engagement}
+\begin{itemize}
+  \item Machine learning research applications in pharmaceutical industry
+
+{%- if talks.industry %}
+{%- for talk in talks.industry %}
+  \item Industry engagement: "{{ talk.title | latex_escape }}" — {{ talk.venue | latex_escape }}, {{ talk.year }}
+
+{%- endfor %}
+{%- endif %}
+\end{itemize}
+
+% =================== H. Outreach and public engagement ===================
+\section*{H. Outreach and public engagement}
+\begin{itemize}
+  \item Public talks on artificial intelligence and machine learning
+  \item Representation of University of Manchester in academic community
+
+{%- if talks.seminars %}
+{%- for talk in talks.seminars %}
+  \item Academic seminar: "{{ talk.title | latex_escape }}" — {{ talk.venue | latex_escape }}, {{ talk.year }}
+
+{%- endfor %}
+{%- endif %}
+\end{itemize}
+
+\vfill\noindent\footnotesize\textit{This template aligns with the Faculty's guidance headings (A–H). Tailor content to the specific promotion category and criteria as described on the FSE intranet.}
+{% endblock %}

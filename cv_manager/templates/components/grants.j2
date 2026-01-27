@@ -1,0 +1,16 @@
+{# Grants component template #}
+{%- macro render_grant(grant, format="academic") -%}
+{%- if format == "promotion" -%}
+\grantitem{ {{ grant.title }} }{ {{ grant.organization | default("Grant") }} }{ {{ grant.year }} }{ {{ grant.role | default("PI") }} }{ {{ grant.amount | default("Not specified") }} }{ {{ grant.description | default("") }} }
+{%- else -%}
+\textbf{ {{ grant.title }} }{% if grant.organization %}, {{ grant.organization }}{% endif %}, {{ grant.year }}{% if grant.amount %}, {{ grant.amount }}{% endif %}{% if grant.status and grant.status == "declined" %} (declined){% endif %}
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro render_award(award, format="academic") -%}
+{%- if format == "uk" -%}
+{{ award.title }} ({{ award.year }}){% if award.amount %} -- {{ award.amount }}{% endif %}
+{%- else -%}
+{{ award.title }}, {{ award.year }}{% if award.amount %} ({{ award.amount }}){% endif %}
+{%- endif -%}
+{%- endmacro -%}

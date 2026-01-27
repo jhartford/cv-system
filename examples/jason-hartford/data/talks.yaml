@@ -1,0 +1,110 @@
+keynotes:
+- year: 2023
+  title: Toward Casual Inference from High Dimensional Observations
+  venue: When Causal Inference meets Statistical Analysis
+  location: Paris, France
+  type: keynotes
+- year: 2023
+  title: A Tutorial on Causal Representation Learning
+  venue: 39th Conference on Uncertainty in Artificial Intelligence
+  location: with Dhanya Shridar
+  type: keynotes
+conference:
+- year: 2020
+  title: Retrospective on DeepIV and some general thoughts on research strategy
+  venue: 'MLRetrospectives: A Venue for Self-Reflection in ML Research at ICML 2020'
+  type: conference
+- year: 2016
+  title: 'Deep IV: A Flexible Approach for Counterfactual Prediction'
+  venue: UAI Workshop on Causality 2017
+  type: conference
+invited:
+- year: 2024
+  title: Tutorial on Causal Representation Learning
+  venue: ELLIS Summer School
+  type: invited
+- year: 2024
+  title: Toward Causal Inference from Unstructured Data
+  venue: Causality in Healthcare at Manchester
+  type: invited
+- year: 2024
+  title: Automated Discovery of Pairwise Interactions from Unstructured Data
+  venue: Active Learning in Pharma
+  type: invited
+- year: 2024
+  title: Towards Causal Inference From High Unstructured Observations
+  venue: Gatsby Institute
+  location: UCL
+  type: invited
+- year: 2024
+  title: A tutorial on causal inference for drug discovery
+  venue: Machine Learning for Drug Discovery Summer School hosted at Mila
+  type: invited
+- year: 2024
+  title: Automated Discovery of Pairwise Interactions from Unstructured Data
+  venue: MLGenX workshop at ICLR 2024
+  type: invited
+- year: 2023
+  title: A Tutorial on Causal Representation Learning
+  venue: Mila / Valence Labs lunch and learn tutorial
+  location: with Dhanya Shridar
+  type: invited
+- year: 2023
+  title: Discovering knowledge via causal inference and representation learning
+  venue: University of Waterloo
+  location: Canada
+  type: invited
+- year: 2023
+  title: Discovering knowledge via causal inference and representation learning
+  venue: University of British Columbia
+  location: Vancouver, Canada
+  type: invited
+- year: 2023
+  title: Discovering knowledge via causal inference and representation learning
+  venue: LSE
+  location: London, UK
+  type: invited
+- year: 2023
+  title: Identifiability of causal representations and relaxing common assumptions
+  venue: 'Bellairs Workshop on Causality: Inference and Representation Learning'
+  location: with Dhanya Shridar
+  type: invited
+industry:
+- year: 2022
+  title: Some steps towards causal representation learning
+  venue: Microsoft Research Montreal
+  type: industry
+- year: 2020
+  title: Causal Inference with Instrumental Variables
+  venue: Tableau Software
+  type: industry
+- year: 2020
+  title: Valid Causal Inference with (Some) Invalid Instrumental Variables
+  venue: Recursion Pharma
+  type: industry
+- year: 2020
+  title: Valid Causal Inference with (Some) Invalid Instrumental Variables
+  venue: National Research Council Canada
+  type: industry
+seminars:
+- year: 2022
+  title: Causal inference with instrumental variables
+  venue: Biology + AI Reading Group at Mila
+  type: seminars
+- year: 2022
+  title: Some steps towards causal representation learning
+  venue: Mila Tea Talk
+  type: seminars
+- year: 2022
+  title: Some steps towards causal representation learning
+  venue: McGill Statistics Seminar
+  type: seminars
+- year: 2020
+  title: Valid Causal Inference with (Some) Invalid Instrumental Variables
+  venue: MILA Tea Talks
+  location: University of Montreal
+  type: seminars
+- year: 2020
+  title: Learning for decision making
+  venue: Brown University
+  type: seminars

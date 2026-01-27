@@ -1,0 +1,209 @@
+{% extends "base.html" %}
+
+{% block title %}Import BibTeX - CV Manager{% endblock %}
+{% block page_title %}Import Publications from BibTeX{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="card">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h3 class="text-xl font-semibold text-gray-800">Import BibTeX File</h3>
+                <p class="text-gray-600 mt-1">Upload a .bib file to automatically import your publications.</p>
+            </div>
+            <div class="flex space-x-3">
+                <a href="{{ url_for('publications') }}" class="btn-secondary">
+                    <i class="fas fa-list mr-2"></i>
+                    View Publications
+                </a>
+                <a href="{{ url_for('dashboard') }}" class="btn-secondary">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Dashboard
+                </a>
+            </div>
+        </div>
+
+        <!-- Import Form -->
+        <form method="POST" enctype="multipart/form-data" class="space-y-6">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+
+            <!-- File Upload -->
+            <div class="form-group">
+                <label for="bibtex_file" class="form-label">
+                    <i class="fas fa-file-upload mr-2"></i>
+                    BibTeX File *
+                </label>
+                <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg hover:border-blue-400 transition-colors">
+                    <div class="space-y-1 text-center">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" stroke="currentColor" fill="none" viewBox="0 0 48 48">
+                            <path d="M28 8H12a4 4 0 00-4 4v20m32-12v8m0 0v8a4 4 0 01-4 4H12a4 4 0 01-4-4v-4m32-4l-3.172-3.172a4 4 0 00-5.656 0L28 28M8 32l9.172-9.172a4 4 0 015.656 0L28 28m0 0l4 4m4-24h8m-4-4v8m-12 4h.02" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        <div class="flex text-sm text-gray-600">
+                            <label for="bibtex_file" class="relative cursor-pointer bg-white rounded-md font-medium text-blue-600 hover:text-blue-500 focus-within:outline-none focus-within:ring-2 focus-within:ring-offset-2 focus-within:ring-blue-500">
+                                <span>Upload a file</span>
+                                <input id="bibtex_file" name="bibtex_file" type="file" class="sr-only" accept=".bib" required>
+                            </label>
+                            <p class="pl-1">or drag and drop</p>
+                        </div>
+                        <p class="text-xs text-gray-500">BibTeX files (.bib) only</p>
+                    </div>
+                </div>
+                <div id="file-info" class="hidden mt-2 text-sm text-gray-600"></div>
+            </div>
+
+            <!-- Import Options -->
+            <div class="bg-gray-50 p-4 rounded-lg">
+                <h4 class="text-lg font-medium text-gray-800 mb-3">Import Options</h4>
+                <div class="space-y-3">
+                    <div class="flex items-center">
+                        <input
+                            id="merge"
+                            name="merge"
+                            type="checkbox"
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                            checked
+                        >
+                        <label for="merge" class="ml-2 text-sm text-gray-700">
+                            <strong>Merge with existing publications</strong>
+                            <div class="text-gray-500">Combine imported publications with your current publications.yaml file</div>
+                        </label>
+                    </div>
+
+                    <div class="flex items-center">
+                        <input
+                            id="backup"
+                            name="backup"
+                            type="checkbox"
+                            class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+                            checked
+                        >
+                        <label for="backup" class="ml-2 text-sm text-gray-700">
+                            <strong>Create backup</strong>
+                            <div class="text-gray-500">Save a backup copy of your current publications.yaml file</div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- How it Works -->
+            <div class="bg-blue-50 p-4 rounded-lg">
+                <h4 class="text-lg font-medium text-blue-800 mb-2">
+                    <i class="fas fa-info-circle mr-2"></i>
+                    How BibTeX Import Works
+                </h4>
+                <div class="text-sm text-blue-700 space-y-2">
+                    <p><strong>Publication Types:</strong> Automatically categorizes entries based on BibTeX types:</p>
+                    <ul class="list-disc list-inside ml-4 space-y-1">
+                        <li><code>@article</code> → Journal Papers</li>
+                        <li><code>@inproceedings, @conference</code> → Conference Papers</li>
+                        <li><code>@misc, @techreport</code> → Preprints</li>
+                        <li><code>@unpublished</code> → Under Review</li>
+                    </ul>
+                    <p><strong>Data Extraction:</strong> Automatically extracts authors, titles, venues, years, pages, DOIs, and other metadata.</p>
+                    <p><strong>Duplicate Detection:</strong> Prevents duplicate imports by comparing publication titles.</p>
+                </div>
+            </div>
+
+            <!-- Form Actions -->
+            <div class="flex items-center justify-between pt-6 border-t border-gray-200">
+                <div class="text-sm text-gray-500">
+                    <i class="fas fa-upload mr-1"></i>
+                    Upload your .bib file to get started
+                </div>
+                <div class="space-x-3">
+                    <a href="{{ url_for('publications') }}" class="btn-secondary">
+                        Cancel
+                    </a>
+                    <button type="submit" class="btn-primary" id="import-btn" disabled>
+                        <i class="fas fa-download mr-2"></i>
+                        Import Publications
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <!-- Sample BibTeX -->
+    <div class="mt-8 card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">Sample BibTeX Format</h4>
+        <div class="bg-gray-900 text-gray-100 p-4 rounded-lg overflow-x-auto">
+            <pre class="text-sm"><code>@article{hartford2023example,
+  title={An Example Research Paper},
+  author={John Doe and Jane Smith},
+  journal={Journal of Computer Science},
+  volume={42},
+  number={3},
+  pages={123--145},
+  year={2023},
+  doi={10.1000/example.doi}
+}
+
+@inproceedings{smith2022conference,
+  title={Conference Paper Title},
+  author={Jane Smith and John Doe},
+  booktitle={Proceedings of the International Conference on AI},
+  pages={456--467},
+  year={2022},
+  note={oral presentation -- 25% acceptance rate}
+}
+
+@misc{doe2024preprint,
+  title={Preprint Paper Title},
+  author={John Doe},
+  year={2024},
+  note={arXiv:2024.12345}
+}</code></pre>
+        </div>
+        <p class="text-sm text-gray-600 mt-3">
+            The system supports all standard BibTeX entry types and will automatically categorize and format them for your CV.
+        </p>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // File upload handling
+    const fileInput = document.getElementById('bibtex_file');
+    const fileInfo = document.getElementById('file-info');
+    const importBtn = document.getElementById('import-btn');
+
+    fileInput.addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        if (file) {
+            fileInfo.textContent = `Selected: ${file.name} (${(file.size / 1024).toFixed(1)} KB)`;
+            fileInfo.classList.remove('hidden');
+            importBtn.disabled = false;
+        } else {
+            fileInfo.classList.add('hidden');
+            importBtn.disabled = true;
+        }
+    });
+
+    // Drag and drop functionality
+    const dropZone = document.querySelector('.border-dashed');
+
+    dropZone.addEventListener('dragover', function(e) {
+        e.preventDefault();
+        dropZone.classList.add('border-blue-500', 'bg-blue-50');
+    });
+
+    dropZone.addEventListener('dragleave', function(e) {
+        e.preventDefault();
+        dropZone.classList.remove('border-blue-500', 'bg-blue-50');
+    });
+
+    dropZone.addEventListener('drop', function(e) {
+        e.preventDefault();
+        dropZone.classList.remove('border-blue-500', 'bg-blue-50');
+
+        const files = e.dataTransfer.files;
+        if (files.length > 0 && files[0].name.toLowerCase().endsWith('.bib')) {
+            fileInput.files = files;
+            fileInput.dispatchEvent(new Event('change'));
+        } else {
+            alert('Please drop a .bib file');
+        }
+    });
+</script>
+{% endblock %}
+{% endblock %}

@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% block title %}Teaching - CV Manager{% endblock %}
+{% block page_title %}Teaching{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h3 class="text-xl font-semibold text-gray-800">Teaching</h3>
+            <p class="text-gray-600 mt-1">Document your teaching experience and student supervision.</p>
+        </div>
+        <a href="{{ url_for('dashboard') }}" class="btn-secondary">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Teaching Experience -->
+    {% if teaching.experience %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-chalkboard mr-2 text-green-600"></i>
+            Teaching Experience
+        </h4>
+        <div class="space-y-4">
+            {% for exp in teaching.experience|sort(attribute='year', reverse=true) %}
+            <div class="border-l-4 border-green-500 pl-4 py-3">
+                <h5 class="font-medium text-gray-800">{{ exp.role }}</h5>
+                <div class="text-sm text-gray-600">
+                    {% if exp.course %}{{ exp.course }} - {% endif %}{{ exp.institution }}, {{ exp.year }}
+                </div>
+                {% if exp.instructor %}
+                <p class="text-sm text-gray-500 mt-1">with {{ exp.instructor }}</p>
+                {% endif %}
+                {% if exp.description %}
+                <p class="text-sm text-gray-500 mt-2">{{ exp.description }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Student Supervision -->
+    {% if teaching.supervision %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-user-graduate mr-2 text-blue-600"></i>
+            Student Supervision
+        </h4>
+        <div class="space-y-4">
+            {% for student in teaching.supervision|sort(attribute='year', reverse=true) %}
+            <div class="border-l-4 border-blue-500 pl-4 py-3">
+                <h5 class="font-medium text-gray-800">{{ student.student }}</h5>
+                <div class="text-sm text-gray-600">
+                    {{ student.level }}{% if student.institution %}, {{ student.institution }}{% endif %} ({{ student.year }})
+                    {% if student.status %}
+                        <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs ml-2">
+                            {{ student.status|title }}
+                        </span>
+                    {% endif %}
+                </div>
+                {% if student.collaborator %}
+                <p class="text-sm text-gray-500 mt-1">Co-supervised with {{ student.collaborator }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Empty State -->
+    {% if not (teaching.experience or teaching.supervision) %}
+    <div class="card text-center py-12">
+        <i class="fas fa-chalkboard-teacher text-gray-300 text-6xl mb-4"></i>
+        <h4 class="text-xl font-medium text-gray-500 mb-2">No teaching activities yet</h4>
+        <p class="text-gray-400 mb-6">Add your teaching experience and student supervision to get started.</p>
+        <p class="text-sm text-gray-500">
+            Edit the <code class="bg-gray-200 px-2 py-1 rounded">data/teaching.yaml</code> file to add your teaching activities.
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

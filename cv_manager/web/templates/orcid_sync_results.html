@@ -1,0 +1,213 @@
+{% extends "base.html" %}
+
+{% block title %}ORCID Sync Results - CV Manager{% endblock %}
+{% block page_title %}ORCID Sync Results{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto">
+    <div class="card">
+        <div class="flex items-center justify-between mb-6">
+            <div>
+                <h3 class="text-xl font-semibold text-gray-800">Sync Results for {{ orcid_id }}</h3>
+                <p class="text-gray-600 mt-1">
+                    {% if results.posted == 0 and results.skipped == 0 %}
+                        No publications were processed.
+                    {% elif results.posted > 0 %}
+                        {% if 'dry_run' in results.posted_works[0] if results.posted_works else False %}
+                            Dry run completed - no actual changes made to ORCID.
+                        {% else %}
+                            Publications successfully synced to your ORCID profile.
+                        {% endif %}
+                    {% else %}
+                        All publications were skipped (likely already exist in ORCID).
+                    {% endif %}
+                </p>
+            </div>
+            <div class="flex space-x-3">
+                <a href="{{ url_for('orcid_sync') }}" class="btn-secondary">
+                    <i class="fas fa-arrow-left mr-2"></i>
+                    Back to Sync
+                </a>
+                <a href="https://orcid.org/{{ orcid_id }}" target="_blank" class="btn-primary">
+                    <i class="fab fa-orcid mr-2"></i>
+                    View ORCID Profile
+                </a>
+            </div>
+        </div>
+
+        <!-- Summary Statistics -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+            <div class="stat-card">
+                <div class="text-2xl font-bold text-green-600">{{ results.posted }}</div>
+                <div class="text-sm text-gray-600">
+                    {% if results.posted_works and 'dry_run' in results.posted_works[0] %}
+                        Would be posted
+                    {% else %}
+                        Posted
+                    {% endif %}
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="text-2xl font-bold text-yellow-600">{{ results.skipped }}</div>
+                <div class="text-sm text-gray-600">Skipped (duplicates)</div>
+            </div>
+            <div class="stat-card">
+                <div class="text-2xl font-bold {% if results.errors %}text-red-600{% else %}text-green-600{% endif %}">
+                    {{ results.errors|length }}
+                </div>
+                <div class="text-sm text-gray-600">Errors</div>
+            </div>
+        </div>
+
+        <!-- Posted Works -->
+        {% if results.posted_works %}
+        <div class="mb-8">
+            <h4 class="text-lg font-semibold text-gray-800 mb-4">
+                <i class="fas fa-{% if results.posted_works[0].get('dry_run') %}eye{% else %}check{% endif %} mr-2 text-green-600"></i>
+                {% if results.posted_works[0].get('dry_run') %}
+                    Publications That Would Be Posted
+                {% else %}
+                    Posted Publications
+                {% endif %}
+            </h4>
+            <div class="space-y-3">
+                {% for work in results.posted_works %}
+                <div class="border-l-4 border-green-500 pl-4 py-3 bg-green-50 rounded-r-lg">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1">
+                            <h5 class="font-medium text-gray-800">{{ work.title }}</h5>
+                            <div class="text-sm text-gray-600 mt-1">
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-800">
+                                    {{ work.type|title|replace('-', ' ') }}
+                                </span>
+                                {% if work.get('dry_run') %}
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800 ml-2">
+                                    Dry Run
+                                </span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% if not work.get('dry_run') %}
+                        <div class="text-sm text-gray-500">
+                            <i class="fas fa-check-circle text-green-600"></i>
+                            Posted
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Errors -->
+        {% if results.errors %}
+        <div class="mb-8">
+            <h4 class="text-lg font-semibold text-gray-800 mb-4">
+                <i class="fas fa-exclamation-triangle mr-2 text-red-600"></i>
+                Errors Encountered
+            </h4>
+            <div class="space-y-3">
+                {% for error in results.errors %}
+                <div class="border-l-4 border-red-500 pl-4 py-3 bg-red-50 rounded-r-lg">
+                    <div class="text-sm text-red-800">{{ error }}</div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- Next Steps -->
+        <div class="bg-blue-50 p-4 rounded-lg">
+            <h4 class="text-lg font-medium text-blue-800 mb-2">
+                <i class="fas fa-lightbulb mr-2"></i>
+                Next Steps
+            </h4>
+            <div class="text-sm text-blue-700 space-y-2">
+                {% if results.posted_works and results.posted_works[0].get('dry_run') %}
+                <p><strong>This was a dry run.</strong> To actually post publications to ORCID:</p>
+                <ol class="list-decimal list-inside ml-4 space-y-1">
+                    <li>Review the publications that would be posted above</li>
+                    <li>Go back to the sync page and uncheck "Dry run"</li>
+                    <li>Run the sync again to post publications to ORCID</li>
+                </ol>
+                {% elif results.posted > 0 %}
+                <p><strong>Publications posted successfully!</strong> You can:</p>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li>View your updated ORCID profile to see the new publications</li>
+                    <li>Run another sync if you add more publications to your CV</li>
+                    <li>Use the import feature to sync changes from ORCID back to your CV</li>
+                </ul>
+                {% else %}
+                <p><strong>No publications were posted.</strong> This could mean:</p>
+                <ul class="list-disc list-inside ml-4 space-y-1">
+                    <li>All your publications are already in your ORCID profile</li>
+                    <li>Your publications.yaml file is empty or has no recognized publications</li>
+                    <li>There were errors processing your publications (check error list above)</li>
+                </ul>
+                {% endif %}
+            </div>
+        </div>
+
+        <!-- Actions -->
+        <div class="flex items-center justify-between mt-8 pt-6 border-t border-gray-200">
+            <div class="space-x-3">
+                <a href="{{ url_for('orcid_sync') }}" class="btn-secondary">
+                    <i class="fas fa-sync-alt mr-2"></i>
+                    Sync Again
+                </a>
+                <a href="{{ url_for('import_orcid') }}" class="btn-secondary">
+                    <i class="fas fa-download mr-2"></i>
+                    Import from ORCID
+                </a>
+            </div>
+            <div class="space-x-3">
+                <a href="{{ url_for('publications') }}" class="btn-secondary">
+                    <i class="fas fa-list mr-2"></i>
+                    View Publications
+                </a>
+                <a href="https://orcid.org/{{ orcid_id }}" target="_blank" class="btn-primary">
+                    <i class="fab fa-orcid mr-2"></i>
+                    View ORCID Profile
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Technical Details -->
+    {% if results.posted_works or results.errors %}
+    <div class="mt-8 card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-code mr-2"></i>
+            Technical Details
+        </h4>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Sync Results (JSON)</label>
+                <div class="mt-1 p-3 bg-gray-100 rounded border overflow-x-auto">
+                    <pre class="text-sm"><code>{{ results|tojson(indent=2) }}</code></pre>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</div>
+
+{% block extra_js %}
+<script>
+    // Auto-redirect to ORCID profile if sync was successful
+    function showSuccessAndRedirect() {
+        {% if results.posted > 0 and not results.posted_works[0].get('dry_run') %}
+        setTimeout(function() {
+            if (confirm('Would you like to view your updated ORCID profile?')) {
+                window.open('https://orcid.org/{{ orcid_id }}', '_blank');
+            }
+        }, 3000);
+        {% endif %}
+    }
+
+    // Show success message on page load
+    document.addEventListener('DOMContentLoaded', showSuccessAndRedirect);
+</script>
+{% endblock %}
+{% endblock %}

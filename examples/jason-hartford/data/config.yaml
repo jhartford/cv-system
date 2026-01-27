@@ -1,0 +1,15 @@
+templates:
+  promotion:
+    include_all: true
+    max_pages: 10
+    font_size: 10pt
+  academic_us:
+    exclude_sections: []
+    format: standard
+  academic_uk:
+    exclude_sections: []
+    format: manchester
+build:
+  latex_engine: pdflatex
+  bibtex_style: plain
+  output_dir: output

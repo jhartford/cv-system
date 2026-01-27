@@ -1,0 +1,208 @@
+{% extends "base.html" %}
+
+{% block title %}Grants & Awards - CV Manager{% endblock %}
+{% block page_title %}Grants & Awards{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+    <div class="flex items-center justify-between">
+        <div>
+            <h3 class="text-xl font-semibold text-gray-800">Grants & Awards</h3>
+            <p class="text-gray-600 mt-1">Track your research funding, fellowships, and recognition.</p>
+        </div>
+        <a href="{{ url_for('dashboard') }}" class="btn-secondary">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Back to Dashboard
+        </a>
+    </div>
+
+    <!-- Statistics -->
+    <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div class="stat-card">
+            <div class="text-2xl font-bold text-blue-600">
+                {{ grants.fellowships|length if grants.fellowships else 0 }}
+            </div>
+            <div class="text-sm text-gray-600">Fellowships</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-2xl font-bold text-green-600">
+                {{ grants.grants|length if grants.grants else 0 }}
+            </div>
+            <div class="text-sm text-gray-600">Grants</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-2xl font-bold text-yellow-600">
+                {{ grants.conference_awards|length if grants.conference_awards else 0 }}
+            </div>
+            <div class="text-sm text-gray-600">Conference Awards</div>
+        </div>
+        <div class="stat-card">
+            <div class="text-2xl font-bold text-purple-600">
+                {{ grants.university_awards|length if grants.university_awards else 0 }}
+            </div>
+            <div class="text-sm text-gray-600">University Awards</div>
+        </div>
+    </div>
+
+    <!-- Fellowships -->
+    {% if grants.fellowships %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-graduation-cap mr-2 text-blue-600"></i>
+            Fellowships
+        </h4>
+        <div class="space-y-4">
+            {% for fellowship in grants.fellowships %}
+            <div class="border-l-4 border-blue-500 pl-4 py-3">
+                <h5 class="font-medium text-gray-800">{{ fellowship.title }}</h5>
+                <div class="flex items-center justify-between mt-1">
+                    <div class="text-sm text-gray-600">
+                        {% if fellowship.organization %}{{ fellowship.organization }} - {% endif %}{{ fellowship.year }}
+                        {% if fellowship.amount %}
+                            <span class="text-green-600 font-medium ml-2">{{ fellowship.amount }}</span>
+                        {% endif %}
+                    </div>
+                    {% if fellowship.status %}
+                        <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs">
+                            {{ fellowship.status|title }}
+                        </span>
+                    {% endif %}
+                </div>
+                {% if fellowship.description %}
+                <p class="text-sm text-gray-500 mt-2">{{ fellowship.description }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Research Grants -->
+    {% if grants.grants %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-money-check-alt mr-2 text-green-600"></i>
+            Research Grants
+        </h4>
+        <div class="space-y-4">
+            {% for grant in grants.grants %}
+            <div class="border-l-4 border-green-500 pl-4 py-3">
+                <h5 class="font-medium text-gray-800">{{ grant.title }}</h5>
+                <div class="flex items-center justify-between mt-1">
+                    <div class="text-sm text-gray-600">
+                        {% if grant.organization %}{{ grant.organization }} - {% endif %}{{ grant.year }}
+                        {% if grant.amount %}
+                            <span class="text-green-600 font-medium ml-2">{{ grant.amount }}</span>
+                        {% endif %}
+                        {% if grant.role %}
+                            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs ml-2">
+                                {{ grant.role }}
+                            </span>
+                        {% endif %}
+                    </div>
+                    {% if grant.status %}
+                        <span class="bg-gray-100 text-gray-800 px-2 py-1 rounded text-xs">
+                            {{ grant.status|title }}
+                        </span>
+                    {% endif %}
+                </div>
+                {% if grant.description %}
+                <p class="text-sm text-gray-500 mt-2">{{ grant.description }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Conference Awards -->
+    {% if grants.conference_awards %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-trophy mr-2 text-yellow-600"></i>
+            Conference Awards
+        </h4>
+        <div class="space-y-4">
+            {% for award in grants.conference_awards %}
+            <div class="border-l-4 border-yellow-500 pl-4 py-3">
+                <h5 class="font-medium text-gray-800">{{ award.title }}</h5>
+                <div class="text-sm text-gray-600">
+                    {{ award.year }}
+                    {% if award.amount %}
+                        <span class="text-green-600 font-medium ml-2">{{ award.amount }}</span>
+                    {% endif %}
+                </div>
+                {% if award.description %}
+                <p class="text-sm text-gray-500 mt-2">{{ award.description }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- University Awards -->
+    {% if grants.university_awards %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-medal mr-2 text-purple-600"></i>
+            University Awards
+        </h4>
+        <div class="space-y-4">
+            {% for award in grants.university_awards %}
+            <div class="border-l-4 border-purple-500 pl-4 py-3">
+                <h5 class="font-medium text-gray-800">{{ award.title }}</h5>
+                <div class="text-sm text-gray-600">
+                    {{ award.year }}
+                    {% if award.amount %}
+                        <span class="text-green-600 font-medium ml-2">{{ award.amount }}</span>
+                    {% endif %}
+                </div>
+                {% if award.description %}
+                <p class="text-sm text-gray-500 mt-2">{{ award.description }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Research Awards -->
+    {% if grants.research_awards %}
+    <div class="card">
+        <h4 class="text-lg font-semibold text-gray-800 mb-4">
+            <i class="fas fa-award mr-2 text-red-600"></i>
+            Research Awards
+        </h4>
+        <div class="space-y-4">
+            {% for award in grants.research_awards %}
+            <div class="border-l-4 border-red-500 pl-4 py-3">
+                <h5 class="font-medium text-gray-800">{{ award.title }}</h5>
+                <div class="text-sm text-gray-600">
+                    {{ award.year }}
+                    {% if award.amount %}
+                        <span class="text-green-600 font-medium ml-2">{{ award.amount }}</span>
+                    {% endif %}
+                </div>
+                {% if award.description %}
+                <p class="text-sm text-gray-500 mt-2">{{ award.description }}</p>
+                {% endif %}
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Empty State -->
+    {% if not (grants.fellowships or grants.grants or grants.conference_awards or grants.university_awards or grants.research_awards) %}
+    <div class="card text-center py-12">
+        <i class="fas fa-award text-gray-300 text-6xl mb-4"></i>
+        <h4 class="text-xl font-medium text-gray-500 mb-2">No grants or awards yet</h4>
+        <p class="text-gray-400 mb-6">Add your research funding, fellowships, and awards to get started.</p>
+        <p class="text-sm text-gray-500">
+            Edit the <code class="bg-gray-200 px-2 py-1 rounded">data/grants.yaml</code> file to add your grants and awards.
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

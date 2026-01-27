@@ -1,0 +1,32 @@
+{# Publications component template #}
+{%- macro render_publication(paper, format="academic") -%}
+{%- if format == "promotion" -%}
+\pubitem{ {{ paper.authors | join(', ') }} }{ {{ paper.title }} }{ {{ paper.journal | default(paper.venue) }} }{ {{ paper.year }}{% if paper.volume %}, vol. {{ paper.volume }}{% endif %}{% if paper.pages %}, pp. {{ paper.pages }}{% endif %}{% if paper.doi %}. DOI: {{ paper.doi }}{% endif %}}
+{%- else -%}
+{{ paper.authors | join(', ') }}.
+{% if format == "uk" %}``{{ paper.title }}.''{% else %}\textbf{ {{ paper.title }} }{% endif %}
+\emph{ {{ paper.journal | default(paper.venue) }} }{% if paper.volume %}, vol. {{ paper.volume }}{% endif %}{% if paper.pages %}, pp. {{ paper.pages }}{% endif %}, {{ paper.year }}.
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro render_conference_paper(paper, format="academic") -%}
+{%- if format == "promotion" -%}
+\pubitem{ {{ paper.authors | join(', ') }} }{ {{ paper.title }} }{ {{ paper.venue }} }{ {{ paper.year }}{% if paper.type %} ({{ paper.type }}){% endif %}{% if paper.acceptance_rate %} — {{ paper.acceptance_rate }}{% endif %}}
+{%- else -%}
+{{ paper.authors | join(', ') }}.
+{% if format == "uk" %}``{{ paper.title }}.''{% else %}\textbf{ {{ paper.title }} }{% endif %}
+\emph{ {{ paper.venue.replace("*", "").replace("_", "") }} }, {{ paper.year }}.
+{%- if paper.type %} ({{ paper.type | capitalize }}){% endif %}
+{%- if paper.acceptance_rate %} {{ paper.acceptance_rate }}.{% endif %}
+{%- endif -%}
+{%- endmacro -%}
+
+{%- macro render_preprint(paper, format="academic") -%}
+{%- if format == "promotion" -%}
+\pubitem{ {{ paper.authors | join(', ') }} }{ {{ paper.title }} }{Preprint}{ {{ paper.year }}{% if paper.arxiv %} arXiv:{{ paper.arxiv }}{% endif %}}
+{%- else -%}
+{{ paper.authors | join(', ') }}.
+{% if format == "uk" %}``{{ paper.title }}.''{% else %}\textbf{ {{ paper.title }} }{% endif %}
+{% if format == "uk" %}Preprint{% else %}arXiv preprint{% endif %}{% if paper.arxiv %} arXiv:{{ paper.arxiv }}{% endif %}, {{ paper.year }}.
+{%- endif -%}
+{%- endmacro -%}
