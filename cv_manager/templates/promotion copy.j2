@@ -118,8 +118,8 @@ Last updated: & \today
 \end{itemize}
 {% endif %}
 
-% =================== A. Research and academic/professional standing ===================
-\section*{A. Research and academic/professional standing}
+% =================== B. Research contributions ===================
+\section*{B. Research contributions}
 
 \subsection*{1. Publications}
 \textit{Citations from Google Scholar as of \today}
@@ -281,40 +281,11 @@ Last updated: & \today
 \end{itemize}
 {%- endif %}
 
-{%- if service.conference_reviews %}
-{%- set area_chairs = service.conference_reviews | selectattr('role', 'equalto', 'Area Chair') | list %}
-{%- set reviewers = service.conference_reviews | rejectattr('role', 'equalto', 'Area Chair') | list %}
 
-{%- if area_chairs %}
-\subsection*{5. Conference area chair service}
-\begin{itemize}
-{%- for review in area_chairs %}
-  \item {{ review.venue | smart_latex_escape }}{% if review.years %} ({{ review.years | join(', ') }}){% endif %}
-{%- endfor %}
-\end{itemize}
-{%- endif %}
 
-{%- if reviewers %}
-\subsection*{6. Conference reviewing}
-\begin{itemize}
-{%- for review in reviewers %}
-  \item {{ review.venue | smart_latex_escape }}{% if review.years %} ({{ review.years | join(', ') }}){% endif %}
-{%- endfor %}
-\end{itemize}
-{%- endif %}
-{%- endif %}
 
-{%- if service.journal_reviews %}
-\subsection*{7. Journal reviewing}
-\begin{itemize}
-{%- for review in service.journal_reviews %}
-  \item {{ review.venue | smart_latex_escape }} ({{ review.year }})
-{%- endfor %}
-\end{itemize}
-{%- endif %}
-
-% =================== B. Teaching and learning ===================
-\section*{B. Teaching and learning}
+% =================== E. Teaching and learning ===================
+\section*{E. Teaching and learning}
 \subsection*{1. Current and previous teaching duties}
 \begin{itemize}
 {%- for exp in teaching.experience | selectattr('institution', 'equalto', 'University of Manchester') | sort(attribute='year', reverse=true) if exp.year %}
@@ -362,13 +333,53 @@ Last updated: & \today
 \subsection*{Internal / External PhD Examiner}
 \begin{itemize}
 {%- for exam in teaching.phd_examiner | sort(attribute='year', reverse=true) %}
-  \item  {{ exam.role | smart_latex_escape }} for {{ exam.type | smart_latex_escape }} {% if exam.student_name %}{{ exam.student_name | smart_latex_escape }}{% endif %}{% if exam.thesis_title %}, "{{ exam.thesis_title | smart_latex_escape }}"{% endif %}, {{ exam.institution | smart_latex_escape }}, {{ exam.year }}
+  \item {{ exam.type | smart_latex_escape }} PhD examiner{% if exam.student_name %} for {{ exam.student_name | smart_latex_escape }}{% endif %}{% if exam.thesis_title %}, "{{ exam.thesis_title | smart_latex_escape }}"{% endif %}, {{ exam.institution | smart_latex_escape }}, {{ exam.year }}{% if exam.role and exam.role != "Examiner" %} ({{ exam.role | smart_latex_escape }}){% endif %}
 {%- endfor %}
 \end{itemize}
 {% endif %}
 
-% =================== C. Academic Enterprise and Knowledge Transfer ===================
-\section*{C. Academic Enterprise and Knowledge Transfer}
+% =================== F. Leadership and/or management roles ===================
+\section*{F. Leadership and/or management roles}
+
+{%- if service.department and service.department.roles %}
+\subsection*{Department service}
+\begin{itemize}
+{%- for role in service.department.roles %}
+  \item {{ role.role | smart_latex_escape }}, {{ role.department | smart_latex_escape }}{% if role.institution %}, {{ role.institution | smart_latex_escape }}{% endif %} ({{ role.start_date }}{% if role.end_date %} - {{ role.end_date }}{% else %} - present{% endif %}){% if role.description %} — {{ role.description | smart_latex_escape }}{% endif %}
+{%- endfor %}
+\end{itemize}
+{%- endif %}
+
+{%- if service.workshops and service.workshops | selectattr('role', 'equalto', 'Organizer') | list %}
+\subsection*{Conference/workshop organization}
+\begin{itemize}
+{%- for workshop in service.workshops if workshop.role == "Organizer" %}
+  \item {{ workshop.venue | smart_latex_escape }}, {{ workshop.year }}
+{%- endfor %}
+\end{itemize}
+{%- endif %}
+
+{%- if service.conference_reviews and service.conference_reviews | selectattr('role', 'equalto', 'Organizer') | list %}
+\subsection*{Conference organization}
+\begin{itemize}
+{%- for service_item in service.conference_reviews if service_item.role == "Organizer" %}
+  \item {{ service_item.venue | smart_latex_escape }}{% if service_item.years %} ({{ service_item.years | join(', ') }}){% endif %}
+{%- endfor %}
+\end{itemize}
+{%- endif %}
+
+{%- if service.volunteer %}
+\subsection*{Professional service}
+\begin{itemize}
+{%- for volunteer_item in service.volunteer %}
+  \item {{ volunteer_item.venue | smart_latex_escape }}, {{ volunteer_item.year }}
+{%- endfor %}
+\end{itemize}
+{%- endif %}
+
+
+% =================== I. Academic Enterprise and Knowledge Transfer ===================
+\section*{I. Academic Enterprise and Knowledge Transfer}
 
 {% if knowledge_transfer.external_lectures %}
 \subsection*{1. External lectures and contributions to professional conferences}
@@ -444,44 +455,59 @@ Last updated: & \today
 \end{itemize}
 {% endif %}
 
-% =================== D. Service and Leadership ===================
-\section*{D. Service and Leadership}
+{% endblock %}
 
-{%- if service.department and service.department.roles %}
-\subsection*{Department service}
+% =================== C. Other evidence of academic & professional standing ===================
+\section*{C. Other evidence of academic and professional standing}
+
+{%- if service.conference_reviews %}
+{%- set area_chairs = service.conference_reviews | selectattr('role', 'equalto', 'Area Chair') | list %}
+{%- set reviewers = service.conference_reviews | rejectattr('role', 'equalto', 'Area Chair') | list %}
+
+{%- if area_chairs %}
+\subsection*{Conference area chair service}
 \begin{itemize}
-{%- for role in service.department.roles %}
-  \item {{ role.role | smart_latex_escape }}, {{ role.department | smart_latex_escape }}{% if role.institution %}, {{ role.institution | smart_latex_escape }}{% endif %} ({{ role.start_date }}{% if role.end_date %} - {{ role.end_date }}{% else %} - present{% endif %}){% if role.description %} — {{ role.description | smart_latex_escape }}{% endif %}
+{%- for review in area_chairs %}
+  \item {{ review.venue | smart_latex_escape }}{% if review.years %} ({{ review.years | join(', ') }}){% endif %}
 {%- endfor %}
 \end{itemize}
 {%- endif %}
 
-{%- if service.workshops and service.workshops | selectattr('role', 'equalto', 'Organizer') | list %}
-\subsection*{Conference/workshop organization}
+
+{%- if reviewers %}
+\subsection*{Conference reviewing}
 \begin{itemize}
-{%- for workshop in service.workshops if workshop.role == "Organizer" %}
-  \item {{ workshop.venue | smart_latex_escape }}, {{ workshop.year }}
+{%- for review in reviewers %}
+  \item {{ review.venue | smart_latex_escape }}{% if review.years %} ({{ review.years | join(', ') }}){% endif %}
+{%- endfor %}
+\end{itemize}
+{%- endif %}
+{%- endif %}
+
+{%- if service.journal_reviews %}
+\subsection*{Journal reviewing}
+\begin{itemize}
+{%- for review in service.journal_reviews %}
+  \item {{ review.venue | smart_latex_escape }} ({{ review.year }})
 {%- endfor %}
 \end{itemize}
 {%- endif %}
 
-{%- if service.conference_reviews and service.conference_reviews | selectattr('role', 'equalto', 'Organizer') | list %}
-\subsection*{Conference organization}
-\begin{itemize}
-{%- for service_item in service.conference_reviews if service_item.role == "Organizer" %}
-  \item {{ service_item.venue | smart_latex_escape }}{% if service_item.years %} ({{ service_item.years | join(', ') }}){% endif %}
-{%- endfor %}
-\end{itemize}
-{%- endif %}
 
-{%- if service.volunteer %}
-\subsection*{Professional service}
+
+% =================== G. Innovation, Knowledge Exchange and External Engagement ===================
+\section*{G. Innovation, Knowledge Exchange and External Engagement}
 \begin{itemize}
-{%- for volunteer_item in service.volunteer %}
-  \item {{ volunteer_item.venue | smart_latex_escape }}, {{ volunteer_item.year }}
+{%- if talks.industry %}
+{%- for talk in talks.industry %}
+  \item Industry engagement: "{{ talk.title | smart_latex_escape }}" — {{ talk.venue | smart_latex_escape }}, {{ talk.year }}
+
 {%- endfor %}
-\end{itemize}
 {%- endif %}
+\end{itemize}
+
+% =================== H. Outreach and public engagement ===================
+\section*{H. Outreach and public engagement}
 
 {%- if talks.seminars %}
 \subsection*{Academic seminars and departmental talks}
@@ -491,17 +517,6 @@ Last updated: & \today
 {%- endfor %}
 \end{itemize}
 {%- endif %}
-
-{%- if talks.industry %}
-\subsection*{Industry talks}
-\begin{itemize}
-{%- for talk in talks.industry %}
-  \item "{{ talk.title | smart_latex_escape }}" — {{ talk.venue | smart_latex_escape }}, {{ talk.year }}
-
-{%- endfor %}
-\end{itemize}
-{%- endif %}
-
 
 {% if public_engagement %}
 \subsection*{Engagement with the public and/or the end-users of research}
@@ -570,5 +585,3 @@ Last updated: & \today
 {%- endif %}
 
 {% endif %}
-
-{% endblock %}

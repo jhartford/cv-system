@@ -43,7 +43,7 @@ def create_app(config: Dict[str, Any] = None) -> Flask:
             # Calculate statistics
             stats = {
                 'journal_papers': len(publications.get('journal_papers', [])),
-                'conference_papers': sum(len(papers) for papers in publications.get('conference_papers', {}).values()),
+                'conference_papers': len(publications.get('conference_papers', [])),
                 'preprints': len(publications.get('preprints', [])),
                 'grants': len(grants.get('fellowships', [])) + len(grants.get('grants', [])),
                 'awards': len(grants.get('conference_awards', [])) + len(grants.get('university_awards', []))
@@ -338,10 +338,7 @@ def create_app(config: Dict[str, Any] = None) -> Flask:
                 # Count imported publications
                 total_imported = 0
                 for category, pubs in new_publications.items():
-                    if category == 'conference_papers':
-                        total_imported += sum(len(papers) for papers in pubs.values())
-                    else:
-                        total_imported += len(pubs)
+                    total_imported += len(pubs) if isinstance(pubs, list) else 0
 
                 if total_imported == 0:
                     flash('No publications found in ORCID profile. This could mean the profile has no works added or all works are set to private.', 'warning')

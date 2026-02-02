@@ -38,6 +38,7 @@ dependencies = [
     "rich>=13.0.0",
     "watchdog>=3.0.0",
     "requests>=2.25.0",
+    "beautifulsoup4",
 ]
 
 [project.optional-dependencies]

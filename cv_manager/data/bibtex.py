@@ -148,7 +148,7 @@ class BibTeXImporter:
         """Categorize BibTeX entries into CV publication structure."""
         publications = {
             'journal_papers': [],
-            'conference_papers': {},
+            'conference_papers': [],
             'preprints': [],
             'under_review': [],
             'workshop_papers': []
@@ -161,26 +161,18 @@ class BibTeXImporter:
             pub = self.convert_entry_to_publication(entry)
 
             if category == 'conference_papers':
-                # Group by year for conference papers
-                year = pub.get('year')
-                if year:
-                    year_str = str(year)
-                    if year_str not in publications['conference_papers']:
-                        publications['conference_papers'][year_str] = []
-                    publications['conference_papers'][year_str].append(pub)
+                # Add to flat list (no year grouping)
+                if pub.get('year'):
+                    publications['conference_papers'].append(pub)
                 else:
                     # If no year, put in workshop papers
                     publications['workshop_papers'].append(pub)
             else:
                 publications[category].append(pub)
 
-        # Sort publications within categories
-        for category in ['journal_papers', 'preprints', 'under_review', 'workshop_papers']:
+        # Sort publications within categories by year (most recent first)
+        for category in ['journal_papers', 'conference_papers', 'preprints', 'under_review', 'workshop_papers']:
             publications[category].sort(key=lambda x: x.get('year', 0), reverse=True)
-
-        # Sort conference papers by year (descending)
-        for year_papers in publications['conference_papers'].values():
-            year_papers.sort(key=lambda x: x.get('title', ''))
 
         return publications
 
@@ -196,30 +188,15 @@ class BibTeXImporter:
 
         # Merge each category
         for category, new_pubs in new_publications.items():
-            if category == 'conference_papers':
-                # Conference papers are organized by year
-                if 'conference_papers' not in merged:
-                    merged['conference_papers'] = {}
+            # All categories are now simple lists
+            if category not in merged:
+                merged[category] = []
 
-                for year, papers in new_pubs.items():
-                    if year not in merged['conference_papers']:
-                        merged['conference_papers'][year] = []
-
-                    # Check for duplicates by title
-                    existing_titles = {pub.get('title', '').lower() for pub in merged['conference_papers'][year]}
-                    for paper in papers:
-                        if paper.get('title', '').lower() not in existing_titles:
-                            merged['conference_papers'][year].append(paper)
-            else:
-                # Other categories are simple lists
-                if category not in merged:
-                    merged[category] = []
-
-                # Check for duplicates by title
-                existing_titles = {pub.get('title', '').lower() for pub in merged[category]}
-                for paper in new_pubs:
-                    if paper.get('title', '').lower() not in existing_titles:
-                        merged[category].append(paper)
+            # Check for duplicates by title
+            existing_titles = {pub.get('title', '').lower() for pub in merged[category]}
+            for paper in new_pubs:
+                if paper.get('title', '').lower() not in existing_titles:
+                    merged[category].append(paper)
 
         return merged
 

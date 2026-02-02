@@ -20,7 +20,11 @@ console = Console()
 @click.group()
 @click.version_option()
 def main():
-    """CV Manager - A modern academic CV management system."""
+    """CV Manager - A modern academic CV management system.
+
+    Import data from BibTeX, ORCID, and citation sources like Google Scholar.
+    Generate professional CVs with multiple templates and automatic formatting.
+    """
     pass
 
 
@@ -353,7 +357,7 @@ def validate():
 def list_templates():
     """List available CV templates."""
     templates_info = {
-        "promotion": "University of Manchester promotion format",
+        "promotion": "University of Manchester promotion format (includes citation counts)",
         "academic-us": "US academic CV format",
         "academic-uk": "UK academic CV format"
     }
@@ -366,6 +370,12 @@ def list_templates():
         table.add_row(name, description)
 
     console.print(table)
+
+    console.print("\n[blue]Citation Features:[/blue]")
+    console.print("• Import citation counts with 'cv-manager import-citations'")
+    console.print("• Supports Google Scholar HTML files")
+    console.print("• Citations displayed in italics when available")
+    console.print("• Automatic matching with BibTeX entries")
 
 
 @main.command('import-bibtex')
@@ -404,10 +414,7 @@ def import_bibtex(bibtex_file: Path, merge: bool, backup: bool):
             # Count imported publications
             total_imported = 0
             for category, pubs in new_publications.items():
-                if category == 'conference_papers':
-                    total_imported += sum(len(papers) for papers in pubs.values())
-                else:
-                    total_imported += len(pubs)
+                total_imported += len(pubs) if isinstance(pubs, list) else 0
 
             if total_imported == 0:
                 progress.update(task, description="No publications found")
@@ -440,17 +447,10 @@ def import_bibtex(bibtex_file: Path, merge: bool, backup: bool):
         # Show summary by category
         console.print("\n[blue]Import Summary:[/blue]")
         for category, pubs in new_publications.items():
-            if category == 'conference_papers':
-                count = sum(len(papers) for papers in pubs.values())
-                if count > 0:
-                    console.print(f"  - Conference papers: {count}")
-                    for year, papers in pubs.items():
-                        console.print(f"    - {year}: {len(papers)} papers")
-            else:
-                count = len(pubs)
-                if count > 0:
-                    category_name = category.replace('_', ' ').title()
-                    console.print(f"  - {category_name}: {count}")
+            count = len(pubs) if isinstance(pubs, list) else 0
+            if count > 0:
+                category_name = category.replace('_', ' ').title()
+                console.print(f"  - {category_name}: {count}")
 
         console.print(f"\n[blue]Publications saved to: {publications_file}[/blue]")
 
@@ -516,10 +516,7 @@ def import_orcid(orcid_id: str, merge: bool, backup: bool, sandbox: bool):
             # Count imported publications
             total_imported = 0
             for category, pubs in new_publications.items():
-                if category == 'conference_papers':
-                    total_imported += sum(len(papers) for papers in pubs.values())
-                else:
-                    total_imported += len(pubs)
+                total_imported += len(pubs) if isinstance(pubs, list) else 0
 
             if total_imported == 0:
                 progress.update(task, description="No publications found")
@@ -556,17 +553,10 @@ def import_orcid(orcid_id: str, merge: bool, backup: bool, sandbox: bool):
         # Show summary by category
         console.print(f"\n[blue]Import Summary for ORCID {validated_orcid}:[/blue]")
         for category, pubs in new_publications.items():
-            if category == 'conference_papers':
-                count = sum(len(papers) for papers in pubs.values())
-                if count > 0:
-                    console.print(f"  - Conference papers: {count}")
-                    for year, papers in pubs.items():
-                        console.print(f"    - {year}: {len(papers)} papers")
-            else:
-                count = len(pubs)
-                if count > 0:
-                    category_name = category.replace('_', ' ').title()
-                    console.print(f"  - {category_name}: {count}")
+            count = len(pubs) if isinstance(pubs, list) else 0
+            if count > 0:
+                category_name = category.replace('_', ' ').title()
+                console.print(f"  - {category_name}: {count}")
 
         console.print(f"\n[blue]Publications saved to: {publications_file}[/blue]")
 
@@ -751,10 +741,7 @@ def orcid_sync(orcid_id: str, client_id: str, client_secret: str, sandbox: bool,
         # Count publications
         total_pubs = 0
         for category, pubs in publications.items():
-            if category == 'conference_papers':
-                total_pubs += sum(len(papers) for papers in pubs.values())
-            else:
-                total_pubs += len(pubs) if isinstance(pubs, list) else 0
+            total_pubs += len(pubs) if isinstance(pubs, list) else 0
 
         console.print(f"[blue]Syncing {total_pubs} publications to ORCID {orcid_id}[/blue]")
         if dry_run:
@@ -850,6 +837,117 @@ def orcid_status():
 
     console.print(table)
     console.print(f"\n[dim]Tokens stored in: {tokens_file}[/dim]")
+
+
+@main.command('import-citations')
+@click.argument('source_file', type=click.Path(exists=True, path_type=Path))
+@click.option('--source-type', default='google_scholar_html',
+              type=click.Choice(['google_scholar_html']),
+              help='Type of citation source (default: google_scholar_html)')
+@click.option('--bib', type=click.Path(exists=True, path_type=Path),
+              help='Path to papers.bib file (default: data/papers.bib)')
+@click.option('--merge/--no-merge', default=True, help='Merge with existing citations (default: yes)')
+@click.option('--backup/--no-backup', default=True, help='Create backup of existing publications.yaml')
+@click.option('--dry-run', is_flag=True, help='Preview changes without updating files')
+@click.option('--similarity-threshold', default=0.7, type=float,
+              help='Minimum similarity score for paper matching (0.0-1.0, default: 0.7)')
+def import_citations(source_file: Path, source_type: str, bib: Path, merge: bool,
+                    backup: bool, dry_run: bool, similarity_threshold: float):
+    """Import citation counts from external sources.
+
+    This command extracts citation numbers from various sources (Google Scholar, etc.)
+    and updates your publications.yaml with the latest citation counts.
+
+    SOURCE_FILE: Path to the citation source file (e.g., Google Scholar HTML)
+
+    Workflow:
+    1. Download citation data (e.g., Google Scholar profile as complete webpage)
+    2. Run this command pointing to the downloaded file
+    3. Publications are matched by title similarity with your BibTeX data
+    4. Citation counts are merged into publications.yaml
+
+    Examples:
+        cv-manager import-citations scholar.html
+        cv-manager import-citations --dry-run --source-type google_scholar_html scholar.html
+        cv-manager import-citations --similarity-threshold 0.8 scholar.html
+    """
+    # Check if we're in a CV directory
+    if not Path("data").exists():
+        console.print("[red]Error: No data directory found. Run 'cv-manager init' first.[/red]")
+        sys.exit(1)
+
+    # Default paths if not provided
+    if not bib:
+        bib = Path("data/papers.bib")
+    publications_file = Path("data/publications.yaml")
+
+    # Check files exist
+    for file_path, name in [(source_file, "Citation source"), (bib, "BibTeX"), (publications_file, "Publications YAML")]:
+        if not Path(file_path).exists():
+            console.print(f"[red]Error: {name} file not found: {file_path}[/red]")
+            sys.exit(1)
+
+    try:
+        from .data.citations import update_citations_from_source
+
+        # Will pass threshold to the updater
+
+        console.print(f"[blue]Importing citations from: {source_file.name}[/blue]")
+        console.print(f"[blue]Source type: {source_type}[/blue]")
+        if dry_run:
+            console.print("[yellow]DRY RUN: No files will be modified[/yellow]")
+
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[progress.description]{task.description}"),
+        ) as progress:
+            task = progress.add_task("Processing citation data...", total=4)
+
+            # Create backup if requested
+            if backup and not dry_run and publications_file.exists():
+                backup_file = publications_file.with_suffix('.yaml.backup')
+                import shutil
+                shutil.copy2(publications_file, backup_file)
+                console.print(f"[blue]Backup created: {backup_file}[/blue]")
+
+            progress.update(task, advance=1, description="Extracting citations...")
+
+            # Update citations
+            results = update_citations_from_source(
+                str(source_file), source_type, str(bib),
+                str(publications_file), dry_run, similarity_threshold
+            )
+
+            progress.update(task, advance=3, description="✓ Citation import completed")
+
+        # Display results
+        from .data.citations import CitationUpdater
+        updater = CitationUpdater()
+        summary = updater.get_citation_summary(results)
+        console.print("\n" + summary)
+
+        if not dry_run and results['updated_count'] > 0:
+            console.print(f"\n[green]Successfully updated {results['updated_count']} publications![/green]")
+            console.print(f"[blue]Publications saved to: {publications_file}[/blue]")
+
+            # Suggest next steps
+            console.print("\n[blue]Next steps:[/blue]")
+            console.print("  - Run 'cv-manager build' to regenerate your CV with updated citations")
+            console.print("  - Review the updates in your publications.yaml file")
+
+        elif dry_run:
+            console.print(f"\n[yellow]Dry run completed. Would update {results['updated_count']} publications.[/yellow]")
+            console.print("[blue]Remove --dry-run to apply changes.[/blue]")
+
+        else:
+            console.print(f"\n[yellow]No publications were updated. All citation counts are current.[/yellow]")
+
+    except Exception as e:
+        console.print(f"[red]Error importing citations: {e}[/red]")
+        import traceback
+        if "--verbose" in sys.argv:
+            console.print(f"[red]{traceback.format_exc()}[/red]")
+        sys.exit(1)
 
 
 if __name__ == "__main__":

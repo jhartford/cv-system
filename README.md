@@ -1,6 +1,17 @@
 # CV Management System
 
-A modern, programmatic approach to academic CV creation and management with ORCID integration.
+A modern, programmatic approach to academic CV creation and management with comprehensive ORCID integration, BibTeX import, and multiple professional CV templates.
+
+## ✨ Key Features
+
+- **📄 Multiple CV Templates**: Academic US/UK, Promotion/Tenure formats
+- **🔄 ORCID Integration**: Bidirectional sync with ORCID profiles
+- **📚 BibTeX Import**: Automatic publication import with smart categorization
+- **🎓 Advanced Supervision Tracking**: Students, industry interns, academic collaborators
+- **🌐 Unicode Support**: Proper handling of international names and characters
+- **📝 YAML-Based**: Human-readable, version-control friendly data storage
+- **🖥️ Web Interface**: User-friendly editing and management
+- **⚙️ CLI Tools**: Powerful command-line interface for automation
 
 ## 🚀 TLDR - Quick Start
 
@@ -118,24 +129,38 @@ The system automatically installs:
 
 **Data Structure** - Publications organized by category in `publications.yaml`:
 ```yaml
-preprints:
-  - title: "Your Preprint Title"
-    authors: ["You", "Collaborator"]
-    year: 2025
-
-conference_papers:
-  2025:
-    - title: "Conference Paper"
-      authors: ["You"]
-      venue: "ICML 2025"
-      year: 2025
-      type: "oral"
-
+# Journal Articles
 journal_papers:
-  - title: "Journal Article"
-    authors: ["You"]
-    journal: "Nature"
+  - title: "Your Journal Article"
+    authors: ["You", "Collaborator"]
+    journal: "Nature Machine Intelligence"
     year: 2024
+    volume: "6"
+    pages: "123-145"
+    doi: "10.1038/s42256-024-00123-4"
+
+# Conference Papers (flat list, sorted by year)
+conference_papers:
+  - title: "Conference Paper Title"
+    authors: ["You", "Co-author"]
+    venue: "International Conference on Machine Learning"
+    year: 2025
+    type: "oral"
+    acceptance_rate: "22% acceptance rate"
+    url: "https://proceedings.mlr.press/..."
+
+# Preprints and Under Review
+preprints:
+  - title: "Preprint Title"
+    authors: ["You"]
+    year: 2025
+    arxiv: "2501.12345"
+
+under_review:
+  - title: "Under Review Paper"
+    authors: ["You"]
+    venue: "Journal of Machine Learning Research"
+    year: 2025
     doi: "10.1000/example"
 ```
 
@@ -187,7 +212,166 @@ cv-manager orcid-status
 - Visit `http://localhost:5000/orcid/connect` for OAuth setup
 - Visit `http://localhost:5000/orcid/sync` for publication management
 
-### 3. Templates & CV Generation
+### 3. Complete Data Structure Reference
+
+The CV system supports comprehensive academic career data through structured YAML files:
+
+#### **Personal Information** (`personal.yaml`)
+```yaml
+personal:
+  name: "Your Name"
+  current_position: "Assistant Professor"
+  current_position_start_date: "2023-09"
+  current_position_end_date: null  # null if ongoing
+  department: "Computer Science"
+  institution: "University Name"
+  email: "you@university.edu"
+  website: "https://yourwebsite.com"
+  phone: "+1-555-0123"
+  orcid: "0000-0000-0000-0000"
+  address: "Office 123, Building Name"
+
+education:
+  - year: 2023
+    degree: "Ph.D. Computer Science"
+    institution: "University of Excellence"
+    supervisor: "Dr. Advisor Name"
+    thesis: "Thesis Title"
+
+# Career History
+employment:
+  - position: "Postdoctoral Researcher"
+    institution: "Research Institute"
+    department: "Department Name"
+    start_date: "2021-09"
+    end_date: "2023-08"
+
+joint_appointments:
+  - position: "Research Scientist"
+    institution: "Company Name"
+    location: "City, Country"
+    start_date: "2023-01"
+    end_date: null
+    percentage: "20%"
+    description: "Part-time research collaboration"
+
+visiting_appointments:
+  - position: "Visiting Scholar"
+    institution: "Partner University"
+    location: "City, Country"
+    start_date: "2022-06"
+    end_date: "2022-08"
+    description: "Summer research collaboration"
+
+memberships:
+  - organization: "ACM"
+    type: "Professional"
+    start_date: "2020"
+    status: "Active"
+```
+
+#### **Teaching & Supervision** (`teaching.yaml`)
+```yaml
+experience:
+  - year: 2024
+    role: "Instructor"
+    course: "Machine Learning"
+    level: "Graduate"
+    institution: "University Name"
+    students: "45 students"
+
+supervision:
+  # Formal degree students
+  - start_date: "2023-09"
+    end_date: "2027-09"
+    student: "PhD Student Name"
+    institution: "University Name"
+    level: "PhD"
+    status: "Full-time"
+    role: "Primary Supervisor"
+    funder: "NSF Fellowship"
+
+  # Industry internships
+  - start_date: "2024-06"
+    end_date: "2024-08"
+    student: "Intern Name"
+    institution: "Google Research"
+    level: "Industry Intern"
+    collaborator: "Industry Mentor"
+
+  # Academic internships
+  - start_date: "2023-06"
+    end_date: "2023-08"
+    student: "Research Intern"
+    institution: "Partner University"
+    level: "Masters Intern"
+```
+
+#### **Professional Service** (`service.yaml`)
+```yaml
+conference_reviews:
+  - venue: "NeurIPS"
+    years: [2022, 2023, 2024]
+    role: "Area Chair"  # or "Reviewer"
+
+journal_reviews:
+  - venue: "Journal of Machine Learning Research"
+    year: 2024
+    role: "Reviewer"
+
+workshops:
+  - venue: "Workshop on Causal ML at NeurIPS"
+    year: 2024
+    role: "Organizer"
+```
+
+#### **Grants & Awards** (`grants.yaml`)
+```yaml
+fellowships:
+  - title: "NSF CAREER Award"
+    organization: "National Science Foundation"
+    year: 2024
+    amount: "$500,000"
+    description: "5-year research program"
+
+grants:
+  - title: "AI Research Initiative"
+    organization: "Industry Partner"
+    year: 2023
+    role: "Co-PI"
+    amount: "$100,000"
+
+conference_awards:
+  - title: "Best Paper Award"
+    venue: "ICML 2024"
+    year: 2024
+
+research_awards:
+  - title: "Young Researcher Award"
+    organization: "AI Society"
+    year: 2023
+```
+
+#### **Talks & Presentations** (`talks.yaml`)
+```yaml
+invited:
+  - title: "Keynote: Future of AI"
+    venue: "AI Conference 2024"
+    year: 2024
+    location: "New York, NY"
+
+industry:
+  - title: "ML in Production"
+    venue: "Tech Company"
+    year: 2024
+
+seminars:
+  - title: "Research Seminar"
+    venue: "University Department"
+    year: 2024
+```
+
+### 4. Templates & CV Generation
 
 **Available Templates:**
 - `academic-us` - Standard US academic format
@@ -239,40 +423,76 @@ cv-manager serve --host 0.0.0.0     # Allow external access
 - CSRF protection
 - Error handling and user feedback
 
-### 5. Data Import/Export
+### 5. Complete CLI Reference
 
-#### BibTeX Integration
+#### Core Commands
 ```bash
-# Import BibTeX file
-cv-manager import-bibtex publications.bib --merge --backup
+# Initialize new CV
+cv-manager init <directory>
 
-# Export to BibTeX
-cv-manager export --format bibtex --output my-publications.bib
+# Build CV (all formats)
+cv-manager build
+cv-manager build --template promotion
+cv-manager build --format latex --output-dir custom/
 
-# Web interface
-# Upload: http://localhost:5000/import-bibtex
-# Download: http://localhost:5000/download/publications.bib
+# Start web interface
+cv-manager serve
+cv-manager serve --port 8080 --host 0.0.0.0
 ```
 
-#### YAML Export
+#### Publication Import
 ```bash
-# Export publications as YAML
-cv-manager export --format yaml --output publications-backup.yaml
+# Import from BibTeX
+cv-manager import-bibtex path/to/papers.bib
+
+# Import from ORCID
+cv-manager import-orcid 0000-0000-0000-0000
 ```
 
-### 6. Validation & Quality Control
-
+#### ORCID Integration
 ```bash
-# Validate all YAML files
-cv-manager validate
+# Connect to ORCID (OAuth setup)
+cv-manager orcid-connect 0000-0000-0000-0000
 
-# Web validation
-# Visit: http://localhost:5000/api/validate
+# Sync TO ORCID
+cv-manager orcid-sync 0000-0000-0000-0000 --dry-run  # Preview
+cv-manager orcid-sync 0000-0000-0000-0000           # Execute
+
+# Check ORCID connection status
+cv-manager orcid-status
 ```
 
-**Validation Features:**
-- YAML syntax and structure validation
-- Required field checking
+#### Help & Documentation
+```bash
+# Get help for any command
+cv-manager --help
+cv-manager build --help
+cv-manager import-bibtex --help
+```
+
+### 6. Advanced Features
+
+#### Unicode & International Names
+- **Smart LaTeX Escaping**: Automatically handles accented characters (é, ñ, ü, etc.)
+- **Author Name Processing**: Proper formatting for international co-author names
+- **Input Formats**: Supports Unicode in YAML files, converts to proper LaTeX
+
+#### Supervision Organization
+- **Students**: PhD and Masters degree supervision
+- **Industry Interns**: Corporate/industry internship supervision
+- **Academic Interns**: University/research institution interns
+- **Date Ranges**: Full start/end date tracking with "present" for ongoing
+
+#### Publication Categorization
+- **Journal Articles**: Separate section with volume, pages, DOI
+- **Conference Proceedings**: Independent numbering and formatting
+- **Preprints**: arXiv and other preprint servers
+- **Under Review**: Submissions in review process
+
+#### Professional Service Organization
+- **Area Chair vs Reviewer**: Separate sections for different service levels
+- **Conference vs Journal**: Different formatting for different review types
+- **Invited Talks**: Dedicated section separate from other service
 - Cross-reference validation
 - Detailed error reporting
 
@@ -542,9 +762,9 @@ This system is designed to be:
 ## 🆘 Support
 
 ### Documentation
-- **This README** - Complete system overview
-- **FEATURES.md** - Detailed feature documentation
-- **ORCID_OAUTH_SETUP.md** - ORCID OAuth setup guide
+- **This README** - Complete system overview with data structures and CLI reference
+- **FEATURES.md** - Comprehensive feature documentation covering all capabilities
+- **ORCID_OAUTH_SETUP.md** - Step-by-step ORCID OAuth setup guide
 
 ### Getting ORCID OAuth Access
 1. **Individual researchers**: Contact your institution's library

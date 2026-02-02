@@ -460,7 +460,7 @@ class ORCIDClient:
         """
         publications = {
             'journal_papers': [],
-            'conference_papers': {},
+            'conference_papers': [],
             'preprints': [],
             'under_review': [],
             'workshop_papers': []
@@ -493,14 +493,7 @@ class ORCIDClient:
                         if pub and pub.get('title'):  # Only include works with titles
                             category = self.map_work_type_to_category(pub.get('work_type', ''))
 
-                            if category == 'conference_papers':
-                                # Group conference papers by year
-                                year = str(pub.get('year', 'unknown'))
-                                if year not in publications['conference_papers']:
-                                    publications['conference_papers'][year] = []
-                                publications['conference_papers'][year].append(pub)
-                            else:
-                                publications[category].append(pub)
+                            publications[category].append(pub)
 
                     except requests.RequestException as e:
                         print(f"Warning: Could not fetch details for work {put_code}: {e}")
@@ -510,12 +503,8 @@ class ORCIDClient:
                         continue
 
         # Sort publications within categories by year (descending)
-        for category in ['journal_papers', 'preprints', 'under_review', 'workshop_papers']:
+        for category in ['journal_papers', 'conference_papers', 'preprints', 'under_review', 'workshop_papers']:
             publications[category].sort(key=lambda x: x.get('year', 0), reverse=True)
-
-        # Sort conference papers by title within each year
-        for year_papers in publications['conference_papers'].values():
-            year_papers.sort(key=lambda x: x.get('title', ''))
 
         return publications
 
