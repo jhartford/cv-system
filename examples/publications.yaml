@@ -1,0 +1,97 @@
+journal_papers:
+- title: "Federated Learning for Privacy-Preserving Medical Diagnosis"
+  authors: ["Alexandra Chen", "Michael Rodriguez", "Sarah Johnson", "David Kim"]
+  journal: "Nature Machine Intelligence"
+  year: 2024
+  volume: 5
+  pages: "123-145"
+  doi: "10.1038/s42256-024-0000-0"
+  citations: 87
+  impact_factor: 25.8
+- title: "Uncertainty Quantification in Deep Neural Networks for Medical Imaging"
+  authors: ["Alexandra Chen", "Emma Thompson", "James Wilson"]
+  journal: "Medical Image Analysis"
+  year: 2023
+  volume: 82
+  pages: "67-89"
+  doi: "10.1016/j.media.2023.0000"
+  citations: 156
+  impact_factor: 8.9
+- title: "Robust Machine Learning for Clinical Decision Support Systems"
+  authors: ["Chen, A.", "Patel, R.", "Brown, L."]
+  journal: "IEEE Transactions on Medical Imaging"
+  year: 2022
+  volume: 41
+  pages: "234-250"
+  doi: "10.1109/TMI.2022.0000"
+  citations: 203
+  impact_factor: 10.6
+- title: "Bayesian Deep Learning: A Comprehensive Survey"
+  authors: ["Alexandra Chen", "Robert Taylor", "Lisa Anderson"]
+  journal: "Artificial Intelligence Review"
+  year: 2021
+  volume: 54
+  pages: "1456-1512"
+  doi: "10.1007/s10462-021-0000-0"
+  citations: 445
+  impact_factor: 9.1
+
+conference_papers:
+- title: "Self-Supervised Learning for Medical Image Segmentation"
+  authors: ["Alexandra Chen", "Kevin Park", "Maria Garcia"]
+  venue: "Neural Information Processing Systems (NeurIPS)"
+  year: 2024
+  type: "oral presentation"
+  acceptance_rate: "25% acceptance rate"
+  citations: 12
+- title: "Interpretable AI for Radiology: A Multi-Modal Approach"
+  authors: ["Chen, A.", "Kumar, S.", "White, J."]
+  venue: "International Conference on Machine Learning (ICML)"
+  year: 2024
+  type: "spotlight presentation"
+  acceptance_rate: "27% acceptance rate"
+  citations: 28
+- title: "Federated Learning with Differential Privacy in Healthcare"
+  authors: ["Alexandra Chen", "Thomas Lee", "Nancy Davis"]
+  venue: "International Conference on Learning Representations (ICLR)"
+  year: 2023
+  type: "oral presentation"
+  acceptance_rate: "32% acceptance rate"
+  citations: 89
+- title: "Domain Adaptation for Medical Image Analysis"
+  authors: ["Chen, A.", "Zhang, W.", "Miller, P."]
+  venue: "International Conference on Medical Image Computing and Computer-Assisted Intervention (MICCAI)"
+  year: 2022
+  type: "oral presentation"
+  acceptance_rate: "31% acceptance rate"
+  citations: 134
+- title: "Attention Mechanisms in Medical Image Classification"
+  authors: ["Alexandra Chen", "Brian Carter", "Helen Adams"]
+  venue: "IEEE International Conference on Computer Vision (ICCV)"
+  year: 2021
+  type: "poster presentation"
+  acceptance_rate: "26% acceptance rate"
+  citations: 267
+
+preprints:
+- title: "Large Language Models for Medical Diagnosis: A Systematic Evaluation"
+  authors: ["Alexandra Chen", "Daniel Martinez", "Sophie Clark"]
+  year: 2024
+  arxiv: "2404.0000"
+  citations: 23
+- title: "Multimodal Learning for Personalized Treatment Recommendations"
+  authors: ["Chen, A.", "Johnson, K.", "Roberts, M."]
+  year: 2024
+  arxiv: "2403.0000"
+  citations: 8
+
+under_review:
+- title: "Causal Inference in Medical AI: Methods and Applications"
+  authors: ["Alexandra Chen", "Peter Williams", "Grace Taylor"]
+  venue: "Nature Medicine"
+  year: 2024
+  citations: 5
+- title: "Federated Learning for Rare Disease Diagnosis"
+  authors: ["Chen, A.", "Ahmed, F.", "Brown, C."]
+  venue: "The Lancet Digital Health"
+  year: 2024

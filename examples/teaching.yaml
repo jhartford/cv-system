@@ -1,0 +1,204 @@
+experience:
+# University of Manchester teaching (will appear in "Current and previous teaching duties")
+- year: 2024
+  role: Module Leader
+  institution: University of Manchester
+  course: COMP61011 - Machine Learning and Data Mining
+  level: PG
+  students: "120 students"
+  responsibilities: "Lectures, coursework design, assessment"
+- year: 2024
+  role: Lecturer
+  institution: University of Manchester
+  course: COMP26120 - Algorithms and Imperative Programming
+  level: UG
+  students: "200 students"
+- year: 2023
+  role: Module Leader
+  institution: University of Manchester
+  course: COMP61021 - AI and Games
+  level: PG
+  students: "85 students"
+- year: 2023
+  role: Seminar Leader
+  institution: University of Manchester
+  course: COMP10120 - First Year Team Project
+  level: UG
+  students: "45 students"
+- year: 2022
+  role: Module Leader
+  institution: University of Manchester
+  course: COMP33511 - User Interface Design
+  level: UG
+  students: "150 students"
+
+# External teaching (will appear in "Teaching/assessment outside UoM")
+- year: 2024
+  role: Invited Lecturer
+  institution: Imperial College London
+  course: Advanced Machine Learning Course
+  instructor: Prof. Murray Shanahan
+  students: "PhD students"
+- year: 2023
+  role: Tutorial Leader
+  institution: Oxford Machine Learning Summer School
+  course: Bayesian Deep Learning Tutorial
+  students: "50 international participants"
+- year: 2023
+  role: Workshop Instructor
+  institution: ELLIS Summer School
+  course: Uncertainty in Machine Learning
+  students: "30 PhD students"
+- year: 2022
+  role: Guest Lecturer
+  institution: University of Cambridge
+  course: Machine Learning and Real-World Data
+  instructor: Prof. Carl Rasmussen
+- year: 2021
+  role: Invited Tutorial
+  institution: International Conference on Machine Learning (ICML)
+  course: Federated Learning in Practice
+  students: "200+ attendees"
+- year: 2020
+  role: Teaching Assistant
+  institution: University of Cambridge
+  course: Machine Learning and Bayesian Inference
+  instructor: Prof. Zoubin Ghahramani
+
+curriculum_innovation:
+- description: "Developed interactive online modules for machine learning concepts"
+  course: "COMP61011 - Machine Learning and Data Mining"
+  year: 2024
+  impact: "Improved student engagement by 40% based on feedback surveys"
+- description: "Created industry case study assignments with real healthcare data"
+  course: "COMP61021 - AI and Games"
+  year: 2023
+  impact: "Enhanced practical understanding of AI applications"
+- description: "Introduced flipped classroom methodology for algorithms teaching"
+  course: "COMP26120 - Algorithms and Imperative Programming"
+  year: 2022
+  impact: "Reduced failure rate by 25%"
+
+teaching_assessments:
+- description: "Outstanding teaching feedback across all modules"
+  year: "2023-2024"
+  score: "4.6/5.0 average student satisfaction"
+  course: "All taught modules"
+- description: "Peer review of innovative teaching methods"
+  year: 2023
+  course: "COMP61011"
+  score: "Excellent rating"
+- description: "Teaching Excellence Award nomination"
+  year: 2022
+  organization: "University of Manchester Students' Union"
+  course: "COMP33511"
+
+phd_examiner:
+- type: "External"
+  student_name: "James Patterson"
+  thesis_title: "Robust Deep Learning for Medical Image Segmentation"
+  institution: "University of Edinburgh"
+  year: 2024
+  role: "External Examiner"
+- type: "Internal"
+  student_name: "Maria Gonzalez"
+  thesis_title: "Federated Learning with Differential Privacy"
+  institution: "University of Manchester"
+  year: 2024
+- type: "External"
+  student_name: "David Wong"
+  thesis_title: "Bayesian Methods for Uncertainty Quantification in Neural Networks"
+  institution: "Imperial College London"
+  year: 2023
+  role: "External Examiner"
+- type: "Internal"
+  student_name: "Sarah Ahmed"
+  thesis_title: "Interpretable Machine Learning for Healthcare Applications"
+  institution: "University of Manchester"
+  year: 2023
+- type: "External"
+  student_name: "Robert Fischer"
+  thesis_title: "Causal Inference in Machine Learning"
+  institution: "University College London"
+  year: 2022
+  role: "Viva Examiner"
+
+supervision:
+# PhD Students
+- start_date: "2023-10"
+  end_date: "2027-10"
+  student: "Thomas Richardson"
+  institution: "University of Manchester, Computer Science"
+  level: "PhD"
+  status: "Full-time"
+  role: "Primary Supervisor"
+  funder: "EPSRC Doctoral Training Partnership"
+  thesis_topic: "Trustworthy AI for Medical Diagnosis"
+- start_date: "2022-09"
+  end_date: "2026-09"
+  student: "Lisa Wang"
+  institution: "University of Manchester, Computer Science"
+  level: "PhD"
+  status: "Full-time"
+  role: "Primary Supervisor"
+  funder: "Wellcome Trust PhD Fellowship"
+  thesis_topic: "Federated Learning for Rare Disease Research"
+- start_date: "2021-10"
+  end_date: "2025-10"
+  student: "Mohammed Al-Rashid"
+  institution: "University of Manchester, Computer Science"
+  level: "PhD"
+  status: "Part-time"
+  role: "Co-Supervisor"
+  funder: "Industrial Sponsorship (DeepMind)"
+  thesis_topic: "Privacy-Preserving Machine Learning"
+
+# Masters Students
+- start_date: "2024-09"
+  end_date: "2025-08"
+  student: "Emma Thompson"
+  institution: "University of Manchester, Computer Science"
+  level: "Masters"
+  thesis_topic: "Explainable AI for Medical Decision Making"
+- start_date: "2024-09"
+  end_date: "2025-08"
+  student: "Alex Johnson"
+  institution: "University of Manchester, Data Science"
+  level: "Masters"
+  thesis_topic: "Uncertainty Quantification in Deep Neural Networks"
+- start_date: "2024-04"
+  end_date: "2024-08"
+  student: "Priya Patel"
+  institution: "University of Manchester, Computer Science"
+  level: "Masters"
+  thesis_topic: "Multimodal Learning for Healthcare"
+
+# Research Interns and Collaborators
+- start_date: "2024-06"
+  end_date: "2024-12"
+  student: "Oliver Smith"
+  institution: "University of Oxford"
+  level: "Industry Intern"
+  collaborator: "Google Research"
+- start_date: "2024-01"
+  end_date: "2024-06"
+  student: "Sophia Chen"
+  institution: "MIT"
+  level: "Industry Intern"
+  collaborator: "Microsoft Research"
+- start_date: "2023-07"
+  end_date: "2024-01"
+  student: "Carlos Rodriguez"
+  institution: "Stanford University"
+  level: "Industry Intern"
+  collaborator: "NVIDIA Research"
+- start_date: "2023"
+  end_date: "2023"
+  student: "Nina Petrov"
+  institution: "ETH Zurich"
+  level: "PhD Collaborator"
+- start_date: "2022"
+  end_date: "2022"
+  student: "Hassan Ali"
+  institution: "University of Manchester"
+  level: "Intern"

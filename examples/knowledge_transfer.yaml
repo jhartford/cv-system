@@ -1,0 +1,211 @@
+external_lectures:
+- year: 2024
+  title: "AI Implementation Strategies for Healthcare Organizations"
+  venue: "Healthcare Technology Management Conference"
+  location: "London, UK"
+  audience: "Healthcare administrators, CIOs, technology managers"
+  description: "Keynote presentation on practical AI deployment in clinical settings"
+- year: 2023
+  title: "Regulatory Pathways for AI Medical Devices"
+  venue: "Medical Device Innovation Summit"
+  location: "Boston, USA"
+  audience: "Medical device companies, regulatory professionals"
+  description: "Panel discussion on FDA and CE marking requirements for AI"
+- year: 2023
+  title: "Data Privacy and AI in Healthcare: A Practical Guide"
+  venue: "Health Data Protection Forum"
+  location: "Brussels, Belgium"
+  audience: "Data protection officers, healthcare legal teams"
+  description: "Workshop on GDPR compliance for AI systems"
+
+executive_education:
+- year: 2023-2024
+  program: "Executive Programme in Healthcare Digital Transformation"
+  institution: "Manchester Business School"
+  role: "Module leader - AI in Healthcare Strategy"
+  duration: "6 months"
+  description: "Designed and delivered executive education module for senior healthcare leaders"
+  participants: "45 senior executives from NHS and private healthcare"
+- year: 2022-2023
+  program: "Chief Data Officer Certification Programme"
+  institution: "Imperial College Business School"
+  role: "Guest lecturer - AI Ethics and Governance"
+  duration: "3 sessions"
+  description: "Specialized sessions on responsible AI implementation"
+  participants: "30 senior data executives"
+
+consultancy:
+- year: 2023-ongoing
+  client: "DeepMind Health"
+  type: "Scientific advisory"
+  role: "Senior Research Consultant"
+  income: "£75,000 per year"
+  description: "Strategic advice on federated learning research and clinical partnerships"
+  impact: "Contributed to 3 major product developments"
+- year: 2024
+  client: "NHS England"
+  type: "Technical advisory"
+  role: "AI Implementation Consultant"
+  income: "£25,000"
+  description: "Advisory work on AI procurement and deployment standards"
+  deliverables: "AI readiness assessment framework"
+- year: 2022-2023
+  client: "Roche Pharmaceuticals"
+  type: "Research collaboration"
+  role: "Principal Investigator"
+  income: "£150,000"
+  description: "Joint research project on AI for drug discovery"
+  outcomes: "2 patent applications, 4 publications"
+
+policy_advisory:
+- year: 2024-ongoing
+  body: "UK Government Office for Science AI Council"
+  role: "Scientific advisor"
+  scope: "National"
+  description: "Providing expertise on AI safety and governance in healthcare applications"
+  meetings: "Quarterly advisory meetings"
+- year: 2023-ongoing
+  body: "European Medicines Agency (EMA) AI Task Force"
+  role: "Technical expert"
+  scope: "International"
+  description: "Contributing to guidelines on AI/ML in pharmaceutical development"
+  deliverables: "Regulatory guidance documents"
+- year: 2022-ongoing
+  body: "WHO Expert Advisory Panel on AI for Health"
+  role: "Technical advisor"
+  scope: "International"
+  description: "Global guidelines on ethical AI implementation in healthcare systems"
+  impact: "Recommendations adopted by 25+ countries"
+
+intellectual_property:
+- year: 2024
+  type: "Patent granted"
+  title: "Federated Learning System for Privacy-Preserving Medical Diagnosis"
+  number: "US Patent 11,123,456"
+  status: "Granted"
+  inventors: "Alexandra Chen, Michael Rodriguez, Sarah Johnson"
+  assignee: "University of Manchester"
+- year: 2024
+  type: "Patent application"
+  title: "Uncertainty-Aware Deep Neural Networks for Medical Image Analysis"
+  number: "US Patent App. 18/789,123"
+  status: "Under review"
+  inventors: "Alexandra Chen, Emma Thompson"
+  assignee: "University of Manchester"
+- year: 2023
+  type: "Patent granted"
+  title: "Method and System for Interpretable Machine Learning in Healthcare"
+  number: "EP Patent 3,456,789"
+  status: "Granted"
+  inventors: "Alexandra Chen, James Wilson, Lisa Brown"
+  assignee: "University of Manchester"
+- year: 2022
+  type: "Software license"
+  title: "HealthAI Toolkit - Open Source Framework"
+  status: "Licensed"
+  description: "Open-source software framework for healthcare AI development"
+  users: "500+ downloads, 15 commercial licenses"
+  revenue: "£45,000 in licensing fees"
+
+enterprise_leadership:
+- year: 2023-ongoing
+  project: "Manchester AI Health Innovation Hub"
+  role: "Scientific co-founder and director"
+  institution: "University of Manchester"
+  description: "Led establishment of university-industry partnership program for AI in healthcare research"
+  partners: "NHS Foundation Trust, Philips Healthcare, Microsoft"
+  impact: "12 spin-out companies, 25 industry partnerships"
+- year: 2022
+  project: "HealthTech Accelerator Programme"
+  role: "Technical advisor and mentor"
+  institution: "Greater Manchester Combined Authority"
+  description: "Mentoring early-stage healthcare technology companies"
+  companies: "15 startups, 8 successful funding rounds"
+
+capital_raising:
+- year: 2024
+  project: "AI for Global Health Initiative"
+  amount: "£5.2M"
+  source: "Wellcome Trust, Gates Foundation, UK Aid"
+  role: "Principal investigator and project lead"
+  description: "Multi-institutional program for AI applications in low-resource settings"
+  partners: "Imperial College, London School of Hygiene & Tropical Medicine"
+- year: 2023
+  project: "Manchester Centre for AI Safety in Healthcare"
+  amount: "£3.8M"
+  source: "UKRI, Industry partners (Google, Microsoft, Philips)"
+  role: "Co-investigator and technical lead"
+  description: "Research center focused on safe and reliable AI for healthcare"
+- year: 2022
+  project: "Federated Learning Infrastructure for NHS"
+  amount: "£2.1M"
+  source: "NHS England, Innovate UK"
+  role: "Technical lead"
+  description: "Pilot infrastructure for privacy-preserving AI across NHS trusts"
+
+startup_involvement:
+- year: 2023
+  company: "MediFed Technologies"
+  role: "Co-founder and Chief Scientific Officer"
+  description: "Healthcare AI company focusing on federated learning solutions"
+  funding: "£1.2M seed round"
+  status: "Active"
+- year: 2022
+  company: "HealthVision AI"
+  role: "Scientific advisor"
+  description: "Medical imaging AI startup"
+  equity: "2% advisory equity"
+  status: "Acquired by Philips Healthcare, 2024"
+
+community_engagement:
+- year: 2024
+  activity: "AI in Healthcare: Public Understanding Workshop Series"
+  audience: "General public, patient advocacy groups"
+  scope: "Regional"
+  reach: "300+ participants across 6 sessions"
+  description: "Monthly workshops on AI in healthcare for non-technical audiences"
+  partners: "Manchester Science Museum, NHS Patient Experience Team"
+- year: 2023-ongoing
+  activity: "Women in AI Healthcare Network"
+  audience: "Female researchers and professionals in AI and healthcare"
+  scope: "National"
+  reach: "500+ members"
+  description: "Networking and mentorship program for women in AI healthcare"
+  role: "Co-founder and steering committee member"
+- year: 2022-ongoing
+  activity: "AI Ethics in Schools Programme"
+  audience: "Secondary school students (ages 14-18)"
+  scope: "Local"
+  reach: "1,200+ students annually"
+  description: "Educational program on AI ethics and responsible technology"
+  schools: "15 schools across Greater Manchester"
+
+standards_development:
+- year: 2024
+  organization: "International Organization for Standardization (ISO)"
+  standard: "ISO/IEC 23053 - Framework for AI risk management in healthcare"
+  role: "Working group member"
+  contribution: "Technical specifications for healthcare AI systems"
+- year: 2023
+  organization: "British Standards Institution (BSI)"
+  standard: "BS 30440 - Ethical design and application of AI in healthcare"
+  role: "Expert panel member"
+  contribution: "Guidelines for ethical AI development"
+
+media_engagement:
+- year: 2024
+  outlet: "The Guardian"
+  type: "Opinion piece"
+  title: "Why Healthcare AI Needs Better Regulation"
+  reach: "250,000+ online views"
+- year: 2023
+  outlet: "BBC Radio 4"
+  type: "Interview"
+  programme: "Today Programme"
+  topic: "AI in medical diagnosis"
+  reach: "6.5 million listeners"
+- year: 2023
+  outlet: "Nature Medicine"
+  type: "Commentary"
+  title: "The future of federated learning in medical research"
+  citations: 15

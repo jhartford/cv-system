@@ -1,0 +1,62 @@
+name: "Dr. Alexandra Chen"
+title: "Senior Lecturer in Computer Science"
+institution: "University of Manchester"
+department: "Department of Computer Science"
+email: "alexandra.chen@manchester.ac.uk"
+phone: "+44 (0)161 306 xxxx"
+office: "Kilburn Building, Room 2.xx"
+website: "https://alexandrachen.github.io"
+orcid: "0000-0000-0000-0000"
+
+# Personal details for promotion application
+current_position:
+  title: "Senior Lecturer in Computer Science"
+  institution: "University of Manchester"
+  start_date: "2020-09"
+  salary_scale: "Grade 8"
+
+career_breaks:
+- type: "Maternity Leave"
+  duration: "6 months"
+  start_date: "2021-03"
+  end_date: "2021-09"
+  description: "Statutory maternity leave"
+
+previous_positions:
+- title: "Lecturer in Computer Science"
+  institution: "University of Manchester"
+  start_date: "2018-01"
+  end_date: "2020-08"
+- title: "Postdoctoral Research Associate"
+  institution: "Imperial College London"
+  start_date: "2016-10"
+  end_date: "2017-12"
+- title: "Research Scientist"
+  institution: "DeepMind Technologies"
+  start_date: "2015-06"
+  end_date: "2016-09"
+
+education:
+- degree: "PhD in Machine Learning"
+  institution: "University of Cambridge"
+  year: 2015
+  thesis: "Bayesian Deep Learning for Healthcare Applications"
+  supervisor: "Prof. Neil Lawrence"
+- degree: "MEng in Computer Science"
+  institution: "University of Oxford"
+  year: 2011
+  classification: "First Class Honours"
+
+awards:
+- year: 2023
+  title: "Rising Star Award"
+  organization: "British Computer Society"
+  description: "For outstanding contributions to AI in healthcare"
+- year: 2022
+  title: "Best Paper Award"
+  venue: "International Conference on Machine Learning (ICML)"
+  paper: "Federated Learning for Medical Imaging"
+- year: 2019
+  title: "Teaching Excellence Award"
+  organization: "University of Manchester"
+  description: "Faculty of Science & Engineering"

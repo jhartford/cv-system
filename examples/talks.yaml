@@ -1,0 +1,198 @@
+conference:
+- year: 2024
+  title: "Federated Learning for Medical Imaging: Challenges and Solutions"
+  venue: 'International Conference on Medical Image Computing and Computer-Assisted Intervention (MICCAI) 2024'
+  type: conference
+  location: "Marrakech, Morocco"
+- year: 2023
+  title: "Uncertainty-Aware Deep Learning for Healthcare Applications"
+  venue: 'IEEE International Conference on Computer Vision (ICCV) 2023'
+  type: conference
+  location: "Paris, France"
+- year: 2022
+  title: "Privacy-Preserving Machine Learning in Clinical Practice"
+  venue: 'ACM Conference on Computer and Communications Security (CCS) 2022'
+  type: conference
+  location: "Los Angeles, USA"
+
+invited:
+- year: 2024
+  title: "The Future of AI in Personalized Medicine"
+  venue: "Royal Society of Medicine"
+  location: "London, UK"
+  type: invited
+  audience: "Medical professionals and researchers"
+- year: 2024
+  title: "Trustworthy AI for Healthcare: From Theory to Practice"
+  venue: "Alan Turing Institute Annual Conference"
+  location: "London, UK"
+  type: invited
+  audience: "AI researchers and policymakers"
+- year: 2024
+  title: "Federated Learning: Enabling Privacy-Preserving Collaboration"
+  venue: "European Conference on Machine Learning and Principles and Practice of Knowledge Discovery in Databases (ECML-PKDD)"
+  location: "Vilnius, Lithuania"
+  type: invited
+- year: 2023
+  title: "Machine Learning for Rare Disease Diagnosis"
+  venue: "International Rare Diseases Research Consortium Conference"
+  location: "Dublin, Ireland"
+  type: invited
+  audience: "Clinicians and researchers"
+- year: 2023
+  title: "Bayesian Deep Learning: Uncertainty Quantification in Practice"
+  venue: "Bayesian Deep Learning Workshop at NeurIPS"
+  location: "New Orleans, USA"
+  type: invited
+- year: 2023
+  title: "AI Ethics in Healthcare Decision Making"
+  venue: "World Health Organization AI for Health Summit"
+  location: "Geneva, Switzerland"
+  type: invited
+  audience: "Health policymakers"
+- year: 2022
+  title: "Interpretable Machine Learning for Clinical Applications"
+  venue: "American Medical Informatics Association (AMIA) Annual Symposium"
+  location: "Washington, DC, USA"
+  type: invited
+  audience: "Medical informaticians"
+- year: 2022
+  title: "Advances in Federated Learning for Healthcare"
+  venue: "Stanford University AI in Medicine Seminar"
+  location: "Stanford, USA"
+  type: invited
+- year: 2021
+  title: "Deep Learning for Medical Image Analysis: Current State and Future Directions"
+  venue: "International Society for Magnetic Resonance in Medicine (ISMRM)"
+  location: "Virtual Conference"
+  type: invited
+  audience: "Medical imaging specialists"
+
+invited_workshops:
+- year: 2024
+  title: "Federated Learning in Healthcare"
+  venue: "ELLIS Workshop on Machine Learning for Healthcare"
+  location: "Amsterdam, Netherlands"
+  description: "Invited participant in federated learning panel discussion"
+- year: 2023
+  title: "AI Safety and Robustness"
+  venue: "Dagstuhl Seminar on Trustworthy Machine Learning"
+  location: "Dagstuhl, Germany"
+  description: "Invited workshop participant"
+- year: 2023
+  title: "Privacy-Preserving AI"
+  venue: "Privacy in Machine Learning Workshop"
+  location: "Cambridge, UK"
+  description: "Panel discussion on differential privacy"
+- year: 2022
+  title: "Uncertainty Quantification"
+  venue: "Uncertainty in Artificial Intelligence (UAI) Workshop"
+  location: "Eindhoven, Netherlands"
+  description: "Invited keynote on Bayesian deep learning"
+
+industry:
+- year: 2024
+  title: "Implementing AI in Clinical Workflows: Lessons from the Frontlines"
+  venue: "Google Health AI Summit"
+  type: industry
+  audience: "Technology leaders in healthcare"
+- year: 2024
+  title: "Federated Learning for Pharmaceutical Research"
+  venue: "Roche Innovation Summit"
+  type: industry
+  audience: "Pharmaceutical researchers and executives"
+- year: 2023
+  title: "AI Governance and Risk Management in Healthcare"
+  venue: "Microsoft Healthcare Innovation Forum"
+  type: industry
+  audience: "Healthcare technology leaders"
+- year: 2023
+  title: "Privacy-Preserving AI: Technical Solutions and Business Applications"
+  venue: "NVIDIA GTC Conference"
+  type: industry
+  audience: "AI practitioners and business leaders"
+- year: 2022
+  title: "Machine Learning Operations in Healthcare Settings"
+  venue: "Amazon Web Services (AWS) re:Invent"
+  type: industry
+  audience: "Cloud computing professionals"
+- year: 2022
+  title: "Regulatory Considerations for AI in Medical Devices"
+  venue: "Johnson & Johnson Innovation Summit"
+  type: industry
+  audience: "Medical device developers"
+- year: 2021
+  title: "Scalable AI Solutions for Global Health Challenges"
+  venue: "IBM Think Conference"
+  type: industry
+  audience: "Enterprise AI developers"
+
+seminars:
+- year: 2024
+  title: "Multimodal Learning for Precision Medicine"
+  venue: "MIT Computer Science and Artificial Intelligence Laboratory (CSAIL) Seminar"
+  type: seminars
+  location: "Cambridge, USA"
+- year: 2024
+  title: "Causal Inference in Healthcare AI"
+  venue: "University of Oxford Machine Learning Research Group"
+  type: seminars
+  location: "Oxford, UK"
+- year: 2023
+  title: "Federated Learning: Theory and Applications in Healthcare"
+  venue: "Carnegie Mellon University Machine Learning Department"
+  type: seminars
+  location: "Pittsburgh, USA"
+- year: 2023
+  title: "Uncertainty Quantification in Deep Neural Networks"
+  venue: "University of Cambridge Machine Learning Group"
+  type: seminars
+  location: "Cambridge, UK"
+- year: 2022
+  title: "Privacy-Preserving Machine Learning for Medical Research"
+  venue: "Imperial College London Data Science Institute"
+  type: seminars
+  location: "London, UK"
+- year: 2022
+  title: "Interpretable AI for Clinical Decision Support"
+  venue: "King's College London Department of Informatics"
+  type: seminars
+  location: "London, UK"
+- year: 2021
+  title: "Bayesian Deep Learning for Healthcare Applications"
+  venue: "University College London Centre for AI"
+  type: seminars
+  location: "London, UK"
+- year: 2020
+  title: "Robust Machine Learning in Medical Imaging"
+  venue: "University of Edinburgh School of Informatics"
+  type: seminars
+  location: "Edinburgh, UK"
+
+keynotes:
+- year: 2024
+  title: "Transforming Healthcare with Trustworthy AI"
+  venue: "International Conference on AI in Medicine (AIME)"
+  location: "Salt Lake City, USA"
+  type: keynote
+  audience: "500+ attendees"
+- year: 2023
+  title: "The Promise and Perils of AI in Healthcare"
+  venue: "European Medical Informatics Conference (MIE)"
+  location: "Gothenburg, Sweden"
+  type: keynote
+  audience: "800+ attendees"
+
+panels:
+- year: 2024
+  title: "Future of AI Regulation in Healthcare"
+  venue: "World Economic Forum Annual Meeting"
+  location: "Davos, Switzerland"
+  type: panel
+  role: "Panelist"
+- year: 2023
+  title: "Ethical Considerations in AI for Medicine"
+  venue: "Nature Medicine Symposium"
+  location: "London, UK"
+  type: panel
+  role: "Moderator"

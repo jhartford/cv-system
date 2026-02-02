@@ -1,0 +1,205 @@
+department:
+  roles:
+  - role: Director of Research
+    department: Department of Computer Science
+    institution: University of Manchester
+    start_date: "2023-08"
+    end_date: null
+    description: "Leading research strategy and coordination across the department"
+  - role: Admissions Committee Chair
+    department: Department of Computer Science
+    institution: University of Manchester
+    start_date: "2022-01"
+    end_date: "2023-07"
+    description: "PhD and Masters admissions oversight"
+  - role: Ethics Committee Member
+    department: Faculty of Science and Engineering
+    institution: University of Manchester
+    start_date: "2021-09"
+    end_date: null
+    description: "Research ethics review and policy development"
+
+conference_reviews:
+- venue: Neural Information Processing Systems (NeurIPS)
+  years:
+  - 2025
+  role: Area Chair
+  expertise: "Machine Learning for Healthcare"
+- venue: Neural Information Processing Systems (NeurIPS)
+  years:
+  - 2019
+  - 2020
+  - 2021
+  - 2022
+  - 2023
+  - 2024
+  role: Reviewer
+- venue: International Conference on Machine Learning (ICML)
+  years:
+  - 2020
+  - 2021
+  - 2022
+  - 2023
+  - 2024
+  - 2025
+  role: Reviewer
+- venue: International Conference on Learning Representations (ICLR)
+  years:
+  - 2021
+  - 2022
+  - 2023
+  - 2024
+  - 2025
+  role: Reviewer
+- venue: International Conference on Artificial Intelligence and Statistics (AISTATS)
+  years:
+  - 2020
+  - 2021
+  - 2022
+  - 2023
+  role: Reviewer
+- venue: AAAI Conference on Artificial Intelligence (AAAI)
+  years:
+  - 2021
+  - 2022
+  - 2023
+  - 2024
+  role: Reviewer
+- venue: International Conference on Medical Image Computing and Computer-Assisted Intervention (MICCAI)
+  years:
+  - 2022
+  - 2023
+  - 2024
+  role: Reviewer
+- venue: IEEE International Conference on Computer Vision (ICCV)
+  years:
+  - 2021
+  - 2023
+  role: Reviewer
+
+journal_reviews:
+- year: 2024
+  venue: Nature Machine Intelligence
+  role: Reviewer
+- year: 2024
+  venue: Journal of Machine Learning Research
+  role: Reviewer
+- year: 2023
+  venue: IEEE Transactions on Medical Imaging
+  role: Reviewer
+- year: 2023
+  venue: Medical Image Analysis
+  role: Reviewer
+- year: 2022
+  venue: Artificial Intelligence in Medicine
+  role: Reviewer
+- year: 2022
+  venue: Machine Learning
+  role: Reviewer
+- year: 2021
+  venue: Pattern Recognition
+  role: Reviewer
+- year: 2020
+  venue: IEEE Transactions on Pattern Analysis and Machine Intelligence
+  role: Reviewer
+
+workshops:
+- year: 2025
+  venue: 'Workshop on Trustworthy AI in Healthcare at NeurIPS 2025, Vancouver, Canada'
+  role: Organizer
+  responsibilities: "Co-organizer, program committee chair"
+- year: 2024
+  venue: 'Machine Learning for Healthcare (ML4H) Workshop at NeurIPS 2024, Vancouver, Canada'
+  role: Organizer
+  responsibilities: "Program committee member"
+- year: 2024
+  venue: 'Privacy in Machine Learning (PriML) Workshop at NeurIPS 2024, Vancouver, Canada'
+  role: Organizer
+  responsibilities: "Co-organizer"
+- year: 2023
+  venue: 'International Workshop on Federated Learning for Healthcare at ICLR 2023, Kigali, Rwanda'
+  role: Organizer
+  responsibilities: "Founding organizer"
+- year: 2023
+  venue: 'Uncertainty in Machine Learning Workshop at ICML 2023, Honolulu, USA'
+  role: Reviewer
+- year: 2022
+  venue: 'Interpretable Machine Learning in Healthcare Workshop at NeurIPS 2022, New Orleans, USA'
+  role: Reviewer
+- year: 2022
+  venue: 'Federated Learning Workshop at ICLR 2022, Virtual Conference'
+  role: Reviewer
+- year: 2021
+  venue: 'AI for Social Good Workshop at NeurIPS 2021, Virtual Conference'
+  role: Reviewer
+
+volunteer:
+- year: 2024
+  venue: '2024: Volunteer - NeurIPS 2024: Conference on Neural Information Processing Systems'
+  role: Volunteer
+  responsibilities: "Session chair, poster session coordinator"
+- year: 2023
+  venue: '2023: Volunteer - ICLR 2023: International Conference on Learning Representations'
+  role: Volunteer
+  responsibilities: "Registration desk, technical support"
+- year: 2022
+  venue: '2022: Volunteer - ICML 2022: International Conference on Machine Learning'
+  role: Volunteer
+  responsibilities: "Student volunteer coordinator"
+
+editorial_service:
+- journal: "AI and Ethics"
+  role: "Associate Editor"
+  start_date: "2023-01"
+  end_date: null
+  publisher: "Springer"
+- journal: "Frontiers in Artificial Intelligence"
+  role: "Review Editor"
+  start_date: "2022-06"
+  end_date: null
+  publisher: "Frontiers Media"
+
+funding_panels:
+- organization: "Engineering and Physical Sciences Research Council (EPSRC)"
+  panel: "Artificial Intelligence and Robotics"
+  year: 2024
+  role: "Panel Member"
+- organization: "Wellcome Trust"
+  panel: "Technology Development Awards"
+  year: 2023
+  role: "External Reviewer"
+- organization: "Royal Society"
+  panel: "University Research Fellowships"
+  year: 2023
+  role: "Panel Member"
+
+professional_memberships:
+- organization: "Institute of Electrical and Electronics Engineers (IEEE)"
+  status: "Senior Member"
+  year: 2023
+- organization: "Association for Computing Machinery (ACM)"
+  status: "Professional Member"
+  year: 2018
+- organization: "British Computer Society (BCS)"
+  status: "Chartered Member"
+  year: 2020
+- organization: "Royal Statistical Society"
+  status: "Fellow"
+  year: 2024
+
+external_committees:
+- organization: "NHS AI Lab"
+  role: "Scientific Advisory Board Member"
+  start_date: "2024-01"
+  end_date: null
+  scope: "National"
+- organization: "UK Government Office for Science"
+  role: "AI Ethics Committee Member"
+  start_date: "2023-06"
+  end_date: null
+  scope: "National"
+- organization: "European Union Horizon Europe"
+  role: "Expert Evaluator"
+  start_date: "2022-01"
+  end_date: null
+  scope: "International"
