@@ -18,6 +18,7 @@ def create_app(config: Dict[str, Any] = None) -> Flask:
     # Configuration
     app.config.update({
         'SECRET_KEY': os.environ.get('SECRET_KEY', 'dev-key-change-in-production'),
+        'SERVER_NAME': '127.0.0.1:5000',  # Force consistent URL generation
         'WTF_CSRF_ENABLED': True,
         'MAX_CONTENT_LENGTH': 16 * 1024 * 1024,  # 16MB max upload
     })
@@ -403,7 +404,8 @@ def create_app(config: Dict[str, Any] = None) -> Flask:
 
                 # Generate OAuth authorization URL
                 redirect_uri = url_for('orcid_callback', _external=True)
-                scopes = ['/activities/update', '/read-limited']  # Required scopes for read/write
+                # Use ORCID's recommended scope for basic authentication
+                scopes = ['/authenticate']  # Basic authentication scope per ORCID docs
 
                 # Store state in session for security
                 import secrets
@@ -422,6 +424,16 @@ def create_app(config: Dict[str, Any] = None) -> Flask:
                     state=state
                 )
 
+                # Debug logging
+                print("=== OAUTH AUTHORIZATION DEBUG ===")
+                print(f"ORCID ID: {validated_orcid}")
+                print(f"Redirect URI: {redirect_uri}")
+                print(f"Scopes: {scopes}")
+                print(f"Use sandbox: {use_sandbox}")
+                print(f"State: {state}")
+                print(f"Authorization URL: {auth_url}")
+                print("=================================")
+
                 # Redirect user to ORCID for authorization
                 return redirect(auth_url)
 
@@ -439,18 +451,36 @@ def create_app(config: Dict[str, Any] = None) -> Flask:
             state = request.args.get('state')
             error = request.args.get('error')
 
+            # Debug logging
+            print("=== ORCID CALLBACK DEBUG ===")
+            print(f"Request URL: {request.url}")
+            print(f"Request args: {dict(request.args)}")
+            print(f"Code: {code}")
+            print(f"State: {state}")
+            print(f"Error: {error}")
+
+            # Check session
+            from flask import session
+            print(f"Session keys: {list(session.keys())}")
+            print(f"OAuth state in session: {session.get('oauth_state')}")
+            print(f"OAuth ORCID ID in session: {session.get('oauth_orcid_id')}")
+            print(f"OAuth sandbox in session: {session.get('oauth_sandbox')}")
+            print("=============================")
+
             if error:
+                print(f"ORCID ERROR: {error}")
                 flash(f'ORCID authorization failed: {error}', 'error')
                 return redirect(url_for('orcid_connect'))
 
             if not code:
+                print("NO CODE: Missing authorization code")
                 flash('No authorization code received from ORCID', 'error')
                 return redirect(url_for('orcid_connect'))
 
             # Verify state parameter to prevent CSRF attacks
-            from flask import session
             stored_state = session.get('oauth_state')
             if not stored_state or stored_state != state:
+                print(f"STATE MISMATCH: Expected '{stored_state}', got '{state}'")
                 flash('Invalid OAuth state parameter. Possible CSRF attack.', 'error')
                 return redirect(url_for('orcid_connect'))
 

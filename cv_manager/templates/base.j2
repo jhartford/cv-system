@@ -22,6 +22,7 @@
 \usepackage{lastpage}
 \usepackage{xcolor}
 \usepackage{datetime2}
+\usepackage{longtable}
 
 % ---------- Hyperref setup ----------
 \hypersetup{
@@ -62,13 +63,22 @@
 \newcommand{\dateditem}[4][]{\textbf{#2}\,—\,#3\hfill{\small #4}\\\emph{#1}\\}
 
 % Publication item macro (edit as preferred)
-\newcommand{\pubitem}[4]{\item #1. {\bf #2}. \emph{#3}. #4.}
+\newcommand{\pubitem}[5]{\item #1. {\bf #2}. \emph{#3}. #4.#5}
 
 % Grant item macro
 \newcommand{\grantitem}[6]{\item \textbf{#1} — {#2}. {#3}. Role: {#4}. Amount: {#5}. {#6}}
 
-% Supervision item macro
-\newcommand{\supervision}[4]{\item {#1} — {#2} (Role: {#3}; {#4})}
+% Grant table row macro for promotion template
+\newcommand{\granttablerow}[6]{#1 & #2 & #3 & #4 & #5 & #6 \\}
+
+% Supervision item macro with funding
+\newcommand{\supervision}[5]{\item {#1} — {#2} (Role: {#3}; {#4}; Funding: {#5})}
+
+% Supervision item macro without funding
+\newcommand{\supervisionbasic}[4]{\item {#1} — {#2} (Role: {#3}; {#4})}
+
+% Visit item macro
+\newcommand{\visititem}[5]{\item {#1} — {#2}, {#3} ({#4}). {#5}}
 
 % Talk item macro
 \newcommand{\talkitem}[4]{\item {#1}. \textbf{#2} - {#3}. {#4}}

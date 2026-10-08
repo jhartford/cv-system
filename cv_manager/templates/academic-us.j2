@@ -112,15 +112,13 @@ Machine Learning, Causal Inference, Representation Learning, Statistical Methods
 {% if publications.conference_papers %}
 \subsection*{Conference Papers}
 \begin{itemize}
-{%- for year in publications.conference_papers.keys() | sort(reverse=true) %}
-{%- for paper in publications.conference_papers[year] %}
+{%- for paper in publications.conference_papers %}
 \item {{ (paper.authors | join(', ')) | latex_escape }}.
       \textbf{ {{ paper.title | latex_escape }} }
       \emph{ {{ paper.venue.replace("*", "").replace("_", "") | latex_escape }} }, {{ paper.year }}.
       {%- if paper.type %} ({{ paper.type | capitalize | latex_escape }}){% endif %}
       {%- if paper.acceptance_rate %} {{ paper.acceptance_rate | latex_escape }}.{% endif %}
 
-{%- endfor %}
 {%- endfor %}
 \end{itemize}
 {% endif %}
